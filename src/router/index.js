@@ -19,7 +19,7 @@ import Amect from "../views/amect.vue"
 import AmectType from "../views/amect_type.vue"
 import AmectReport from "../views/amect_report.vue"
 import Reim from "../views/reim.vue"
-import NotFound from "../views/404.vue"
+import NotFound from "../views/404/404.vue"
 
 
 const routes = [{

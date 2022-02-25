@@ -77,6 +77,42 @@
                         opacity: 50%;
                         word-spacing: 50px;
                     }
+                    .sign {
+                        background: linear-gradient(-45deg, #e76012, #9f69fe, #27c8b7, #3f00b5);
+                        background-size: 800% 400%;
+                        display: inline-block;
+                        border: none;
+                        border-radius: 10px;
+                        font-size: 14px;
+                        font-weight: bolder;
+                        color: white;
+                        transition: all .5s ease-in-out;
+                        animation: gradient 10s infinite cubic-bezier(.62, .28, .23, .99) both;
+                       }
+                       
+                       .sign:hover {
+                        animation: gradient 3s infinite;
+                        transform: scale(1.05);
+                       }
+                       
+                       .sign:active {
+                        animation: gradient 3s infinite;
+                        transform: scale(1.08);
+                       }
+                       
+                       @keyframes gradient {
+                        0% {
+                         background-position: 0% 50%;
+                        }
+                       
+                        50% {
+                         background-position: 100% 50%;
+                        }
+                       
+                        100% {
+                         background-position: 0% 50%;
+                        }
+                       }
                 }
             }
             .overview-content {
@@ -118,6 +154,26 @@
                         font-weight: bolder;
                         font-family: Georgia, 'Times New Roman', Times, serif;
                     }
+                    .today {
+                        position: absolute;
+                        top: 70px;
+                        left: 40px;
+                        width: 80%;
+                        height: 20px;
+                        font-size: 20px;
+                        opacity: .9;
+                        span {
+                            em {
+                                font-size: 16px;
+                            }
+                            display: block;
+                            font-size: 18px;
+                            width: 100%;    
+                            text-align: right;
+                            color: #fff;
+                            font-weight: bolder;
+                        }
+                    }
                     .login-time {
                         position: absolute;
                         top: 186px;
@@ -128,15 +184,28 @@
                         position: absolute;
                         font-size: 30px;
                         font-weight: bolder;
-                        top: 166px;
+                        top: 160px;
                         left: 50px;
+                        span {
+                            font-size: 14px;
+                            display: block;
+                            padding-bottom: 10px;
+                            opacity: .9;
+                        }
+                        em {
+                            font-size: 20px;
+                            margin-left: 10px;
+
+                        }
                     }
                     .sign-time {
                         position: absolute;
                         font-size: 104px;
                         font-weight: bolder;
                         top: 66px;
-                        left: 50px;
+                        left: 30px;
+                        width: 120px;
+                        text-align: center;
                     }
                     .rate {
                         position: absolute;

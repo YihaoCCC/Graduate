@@ -9,7 +9,7 @@
                     size="medium"
                     clearable="clearable"
                 >
-                    <el-option v-for="one in deptList" :label="one.deptName" :value="one.id" />
+                    <el-option v-for="one in deptList" :label="one.deptName" :value="one.id" :key="one.id" />
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -20,7 +20,7 @@
                     size="medium"
                     clearable="clearable"
                 >
-                    <el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" />
+                    <el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" :key="one.id" />
                 </el-select>
             </el-form-item>
             <el-form-item>

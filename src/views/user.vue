@@ -18,7 +18,7 @@
             </el-form-item>
             <el-form-item>
                 <el-select v-model="dataForm.role" class="input" placeholder="角色" size="medium" clearable="clearable">
-                    <el-option v-for="one in roleList" :label="one.roleName" :value="one.roleName" />
+                    <el-option v-for="one in roleList" :label="one.roleName" :value="one.roleName" :key="one.roleName" />
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -29,7 +29,7 @@
                     size="medium"
                     clearable="clearable"
                 >
-                    <el-option v-for="one in deptList" :label="one.deptName" :value="one.id" />
+                    <el-option v-for="one in deptList" :label="one.deptName" :value="one.id" :key="one.id" />
                 </el-select>
             </el-form-item>
             <el-form-item>

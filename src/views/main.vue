@@ -1,4 +1,11 @@
 <template>
+    <div class="welcome"  id="indexframe" ref="showModel" :class="show ? 'animate__animated animate__fadeOut' : ''">
+        <div class="animate__animated animate__backInDown welcomeText animate__slow">
+            <h1>
+                欢迎来到小奕在线办公服务系统
+            </h1>
+        </div>
+    </div>
     <div
         class="site-wrapper"
         :class="{ 'site-sidebar--fold': sidebarFold }"
@@ -18,6 +25,11 @@
                         <SvgIcon name="zhedie" class="icon-svg" />
                     </el-menu-item>
                 </el-menu>
+                <div style="width:1200px;display:inline-block;text-align:center">
+                    <h5>
+                        {{yiyan}}
+                    </h5>
+                </div>
                 <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal">
                     <el-menu-item index="1" class="site-navbar__switch">
                         <template #title>
@@ -57,7 +69,7 @@
                     <el-submenu index="组织管理" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
                         <template #title>
                             <SvgIcon name="users_fill" class="icon-svg" />
-                            <span slot="title">组织管理</span>
+                            <span >组织管理</span>
                         </template>
                         <el-menu-item
                             index="dept"
@@ -66,7 +78,7 @@
                             ref="ABC"
                         >
                             <SvgIcon name="company_fill" class="icon-svg" />
-                            <span slot="title">部门管理</span>
+                            <span >部门管理</span>
                         </el-menu-item>
                         <el-menu-item
                             index="role"
@@ -74,7 +86,7 @@
                             @click="$router.push({ name: 'Role' })"
                         >
                             <SvgIcon name="role_fill" class="icon-svg" />
-                            <span slot="title">角色管理</span>
+                            <span >角色管理</span>
                         </el-menu-item>
                         <el-menu-item
                             index="user"
@@ -82,13 +94,13 @@
                             @click="$router.push({ name: 'User' })"
                         >
                             <SvgIcon name="user_fill" class="icon-svg" />
-                            <span slot="title">用户管理</span>
+                            <span >用户管理</span>
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="在线办公" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
                         <template #title>
                             <SvgIcon name="meeting_fill" class="icon-svg" />
-                            <span slot="title">在线办公</span>
+                            <span >在线办公</span>
                         </template>
                         <el-menu-item
                             index="approval"
@@ -96,38 +108,38 @@
                             @click="$router.push({ name: 'Approval' })"
                         >
                             <SvgIcon name="warehouse_fill" class="icon-svg" />
-                            <span slot="title">审批任务</span>
+                            <span >审批任务</span>
                         </el-menu-item>
                         <el-menu-item index="leave" @click="$router.push({ name: 'Leave' })">
                             <SvgIcon name="night_fill" class="icon-svg" />
-                            <span slot="title">员工请假</span>
+                            <span  >员工请假</span>
                         </el-menu-item>
                         <el-menu-item index="amect" @click="$router.push({ name: 'Amect' })">
                             <SvgIcon name="cry_fill" class="icon-svg" />
-                            <span slot="title">违纪罚款</span>
+                            <span  >违纪罚款</span>
                         </el-menu-item>
                         <el-menu-item index="reim" @click="$router.push({ name: 'Reim' })">
                             <SvgIcon name="assurance_fill" class="icon-svg" />
-                            <span slot="title">报销管理</span>
+                            <span  >报销管理</span>
                         </el-menu-item>
                     </el-submenu>
 
                     <el-submenu index="会议管理" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
                         <template #title>
                             <SvgIcon name="meeting_fill" class="icon-svg" />
-                            <span slot="title">会议管理</span>
+                            <span  >会议管理</span>
                         </template>
                         <el-menu-item index="meeting-room" @click="$router.push({ name: 'MeetingRoom' })">
                             <SvgIcon name="warehouse_fill" class="icon-svg" />
-                            <span slot="title">会议室</span>
+                            <span  >会议室</span>
                         </el-menu-item>
                         <el-menu-item index="demo-echarts" @click="$router.push({ name: 'OfflineMeeting' })">
                             <SvgIcon name="trust_fill" class="icon-svg" />
-                            <span slot="title">线下会议</span>
+                            <span  >线下会议</span>
                         </el-menu-item>
                         <el-menu-item index="demo-echarts" @click="$router.push({ name: 'OnlineMeeting' })">
                             <SvgIcon name="service_fill" class="icon-svg" />
-                            <span slot="title">线上会议</span>
+                            <span  >线上会议</span>
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu
@@ -137,11 +149,11 @@
                     >
                         <template #title>
                             <SvgIcon name="system_fill" class="icon-svg" />
-                            <span slot="title">系统设置</span>
+                            <span  >系统设置</span>
                         </template>
                         <el-menu-item index="amect-type" @click="$router.push({ name: 'AmectType' })">
                             <SvgIcon name="tool_fill" class="icon-svg" />
-                            <span slot="title">罚款类型</span>
+                            <span  >罚款类型</span>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -159,16 +171,16 @@
                     <el-dropdown class="site-tabs__tools" trigger="click">
                         <i class="el-icon-arrow-down el-icon--right"></i>
                         <template #dropdown>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item @click.native="tabsCloseCurrentHandle">
+                            <el-dropdown-menu >
+                                <el-dropdown-item @click="tabsCloseCurrentHandle">
                                     关闭当前标签页
                                 </el-dropdown-item>
-                                <el-dropdown-item @click.native="tabsCloseOtherHandle">关闭其它标签页</el-dropdown-item>
-                                <el-dropdown-item @click.native="tabsCloseAllHandle">关闭全部标签页</el-dropdown-item>
+                                <el-dropdown-item @click="tabsCloseOtherHandle">关闭其它标签页</el-dropdown-item>
+                                <el-dropdown-item @click="tabsCloseAllHandle">关闭全部标签页</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
-                    <el-tab-pane v-for="item in mainTabs" :label="item.title" :name="item.name">
+                    <el-tab-pane v-for="item in mainTabs" :label="item.title" :name="item.name" :key="item.title">
                         <el-card :body-style="siteContentViewHeight" shadow="never">
                             <iframe
                                 v-if="item.type === 'iframe'"
@@ -215,8 +227,41 @@
 import SvgIcon from '../components/SvgIcon.vue';
 import { isURL } from '../utils/validate';
 import UpdatePassword from './update-password.vue';
-import { ref, provide, onMounted } from 'vue';
+import { ref, provide, onMounted, getCurrentInstance } from 'vue';
+
+
 export default {
+
+    setup() {
+        const showModel = ref(null)
+        const show = ref(false)
+        const yiyan = ref('')
+        
+        onMounted(() => {
+
+            getCurrentInstance().appContext.config.globalProperties.$yhRequest.get('https://api.muxiaoguo.cn/api/yiyan?api_key=16d76a0353713b97').then((res) => {
+                yiyan.value = res.data.content
+            })
+            closeModel()
+        })
+         // 关闭蒙版
+        const closeModel = () => {
+            setTimeout(() => {
+            console.log(showModel)
+            show.value = true
+            // showModel.value.addAttribute('class', 'animate__animated animate__fadeOut')
+            }, 5000)
+        }
+        setTimeout(() => {
+            showModel.value.style.display = 'none'
+            console.log(showModel.value.style)
+        },5500)
+        return {
+            showModel,
+            show,
+            yiyan
+        }
+    },
     components: { SvgIcon, UpdatePassword },
     data: function() {
         return {
@@ -386,6 +431,29 @@ export default {
 
 <style lang="scss">
 @import '../assets/scss/index.scss';
+.welcome {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(163, 160, 160, 0.466);  
+  z-index: 1000;
+  transition:  all .5s ease;
+}
+.welcomeText { 
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    transform: translate(-20%,-10%);
+    h1 {
+        font-size: 86px;
+        background-image: linear-gradient(to bottom right, #7A88FF, #f17932);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+    }
+}
 .el-card {
     border-radius: 20px !important;
 }

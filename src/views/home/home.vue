@@ -20,7 +20,7 @@
                     <button class='year'>
                         year
                     </button>
-                    <button class="sign">
+                    <button class="sign" @click="signClick">
                         今日签到
                     </button>
                 </div>
@@ -40,13 +40,28 @@
                     </div>
                 </div>
                 <div class="item-box">
+                    <div class="today">
+                        {{today}}
+                        <span>
+                            <em style="margin-right: 20px">
+                                {{yearZodiac}}
+                            </em>
+                            {{lunar}}
+                        </span>
+                    </div>   
                     <div class="time">
-                        1886
+                        <span>
+                            已入职：
+                        </span>
+                        {{showOnboarding.toFixed(0)}}
+                        <em>
+                            天
+                        </em>
                     </div>
                 </div>
                 <div class="item-box">
                     <div class="sign-time">
-                        6
+                        {{showSign.toFixed(0)}}
                     </div>
                     <div class="rate">
                         66%
@@ -72,7 +87,9 @@
                 </div>
                 <div class="center">
                     <div class=" myCard top haspadding">
-                        <dv-scroll-ranking-board :config="config3" style="width:500px;height:180px" />
+                        <div class="test" id="test"  width='300px' height='300px' >
+
+                        </div>
                     </div>
                     <div class="bottom">
                         <div class="myCard">
@@ -127,12 +144,6 @@
                                 <svg t="1645532903328" class="icon" :class="{
                                         'todo-item-del': scope.row.status,
                                     }" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3987" width="16" height="16"><path d="M608 768c-17.696 0-32-14.304-32-32L576 384c0-17.696 14.304-32 32-32s32 14.304 32 32l0 352C640 753.696 625.696 768 608 768z" p-id="3988" fill="#F56C6C"></path><path d="M416 768c-17.696 0-32-14.304-32-32L384 384c0-17.696 14.304-32 32-32s32 14.304 32 32l0 352C448 753.696 433.696 768 416 768z" p-id="3989" fill="#F56C6C"></path><path d="M928 224l-160 0L768 160c0-52.928-42.72-96-95.264-96L352 64C299.072 64 256 107.072 256 160l0 64L96 224C78.304 224 64 238.304 64 256s14.304 32 32 32l832 0c17.696 0 32-14.304 32-32S945.696 224 928 224zM320 160c0-17.632 14.368-32 32-32l320.736 0C690.272 128 704 142.048 704 160l0 64L320 224 320 160z" p-id="3990" fill="#F56C6C"></path><path d="M736.128 960 288.064 960c-52.928 0-96-43.072-96-96L192.064 383.52c0-17.664 14.336-32 32-32s32 14.336 32 32L256.064 864c0 17.664 14.368 32 32 32l448.064 0c17.664 0 32-14.336 32-32L768.128 384.832c0-17.664 14.304-32 32-32s32 14.336 32 32L832.128 864C832.128 916.928 789.056 960 736.128 960z" p-id="3991" fill="#F56C6C"></path></svg>
-								<!-- <el-icon :size='20' class="icon " color="#409EFF" :class="{
-                                        'todo-item-del': scope.row.status,
-                                    }"><edit /></el-icon> -->
-                                <!-- <el-icon :size="20" class ='icon' color="#F56C6C" :class="{
-                                        'todo-item-del': scope.row.status,
-                                    }"><delete/></el-icon> -->
                             </template>
                         </el-table-column>
                     </el-table>
@@ -150,6 +161,8 @@ import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsDrilldown from 'highcharts/modules/drilldown';
 import Highcharts3D from 'highcharts/highcharts-3d';
 import Highmaps from 'highcharts/modules/map';
+import {  getCurrentInstance, onMounted, ref } from 'vue';
+import gsap from 'gsap';
 
 HighchartsMore(Highcharts)
 HighchartsDrilldown(Highcharts);
@@ -157,134 +170,37 @@ Highcharts3D(Highcharts);
 Highmaps(Highcharts);
 
 export default {
-	
-    mounted() {
-        Highcharts.chart('container', {
-            credits: {
-                enabled: true,                    // 默认值，如果想去掉版权信息，设置为false即可
-                text: '小奕办公系统',             // 显示的文字
-                href: 'http://www.hcharts.cn',      // 链接地址
-                position: {                         // 位置设置 
-                    align: 'left',
-                    x: 300,
-                    verticalAlign: 'bottom',
-                    y: -20
-                },
-                style: {                            // 样式设置
-                    cursor: 'pointer',
-                    color: '#666',
-                    fontSize: '12px'
-                }
-            },
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: '2018 年浏览器市场份额'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: false
-                    },
-                    showInLegend: true
-                }
-            },
-            series: [{
-                name: 'Brands',
-                colorByPoint: true,
-                data: [{
-                    name: 'Chrome',
-                    y: 61.41,
-                    sliced: true,
-                    selected: true
-                }, {
-                    name: 'Internet Explorer',
-                    y: 11.84
-                }, {
-                    name: 'Firefox',
-                    y: 10.85
-                }, {
-                    name: 'Edge',
-                    y: 4.67
-                }, {
-                    name: 'Safari',
-                    y: 4.18
-                }, {
-                    name: 'Other',
-                    y: 7.05
-                }]
-            }]
-        });
-    },
-    setup() { 
-        const config ={
-            data: [
-                {
-                name: '周口',
-                value: 55
-                },
-                {
-                name: '南阳',
-                value: 120
-                },
-                {
-                name: '西峡',
-                value: 78
-                },
-                {
-                name: '驻马店',
-                value: 66
-                },
-                {
-                name: '新乡',
-                value: 80
-                }
-            ],
-             digitalFlopStyle: {
-                color: '#e5e5e5',
-                fontSize: 20
-            },
+    data () {
+        return {
+            showSign : 0,
+            showOnboarding: 0
         }
-        const config2 = {
-                data: [66]
-            }
-        const config3 = {
-                data: [
-                    {
-                    name: '周口',
-                    value: 55
-                    },
-                    {
-                    name: '南阳',
-                    value: 120
-                    },
-                    {
-                    name: '驻马店',
-                    value: 66
-                    },
-                    {
-                    name: '新乡',
-                    value: 80
-                    },
-                    {
-                    name: '信阳',
-                    value: 45
-                    },
-                    {
-                    name: '漯河',
-                    value: 29
-                    }
-                ]
-            }
+    },
+    mounted() {
+        console.log(this.sign)
+        gsap.to(this, {
+            duration: 2,
+            showSign: this.sign
+        })
+        gsap.to(this, {
+            duration: 3,
+            showOnboarding: this.Onboarding
+        })
+    },
+    watch: {
+        sign(newValue,old) {
+            console.log(newValue,old)
+            this.showSign = newValue
+        }
+    },
+    setup() {
+        let CurrentInstance = getCurrentInstance()
+        let $yhRequest = CurrentInstance.appContext.config.globalProperties.$yhRequest
+        const today = ref('')
+        const lunar = ref('')
+        const yearZodiac = ref('')
+        const sign = ref(20)
+        const Onboarding = ref(1886)
         const todoList= [
                 {
                     title: "今天要修复100个bug",
@@ -326,12 +242,80 @@ export default {
                     title: '这是我的毕业设计',
                     status: false
                 }
-            ]
+        ]
+        const signClick = () => {
+            sign.value ++
+        }
+        onMounted(() => {
+            // HighCharts饼图
+            Highcharts.chart('container', {
+                    chart: {
+                            type: 'pie',
+                            options3d: {
+                                    enabled: true,
+                                    alpha: 45
+                            }
+                    },
+                    credits: {
+                            enabled: true,                    // 默认值，如果想去掉版权信息，设置为false即可
+                            text: '小奕办公系统',             // 显示的文字
+                            href: 'http://www.hcharts.cn',      // 链接地址
+                            position: {                         // 位置设置 
+                                align: 'left',
+                                x: 300,
+                                verticalAlign: 'bottom',
+                                y: -20
+                            },
+                            style: {                            // 样式设置
+                                cursor: 'pointer',
+                                color: '#666',
+                                fontSize: '12px'
+                            }
+                    },
+                    title: {
+                            text: '小奕办公系统',
+                    },
+                    subtitle: {
+                            text: '本阶段的任务饼图'
+                    },
+                    plotOptions: {
+                            pie: {
+                                    innerSize: 100,
+                                    depth: 45
+                            }
+                    },
+                    series: [{
+                            name: '货物金额',
+                            data: [
+                                    ['香蕉', 8],
+                                    ['猕猴桃', 3],
+                                    ['桃子', 1],
+                                    ['橘子', 6],
+                                    ['苹果', 8],
+                                    ['梨', 4],
+                                    ['柑橘', 4],
+                                    ['橙子', 1],
+                                    ['葡萄 (串)', 1]
+                            ]
+                    }]
+            });
+            })
+            $yhRequest.get('https://api.muxiaoguo.cn/api/yinlongli?api_key=cef2258d2716a7a3').then((res) => {
+                console.log(res.data)
+                today.value = res.data.gregorian
+                today.value = today.value.split(' ')[0]
+                lunar.value = res.data.lunar
+                yearZodiac.value = res.data.yearZodiac
+                console.log(today.value.split(' ')[0])
+            })
             return {
                 todoList,
-                config,
-                config2,
-                config3
+                today,
+                lunar,
+                yearZodiac,
+                sign,
+                Onboarding,
+                signClick
             }
     }
 }
@@ -339,4 +323,8 @@ export default {
 
 <style lang="less" scoped="scoped">
 @import url('./home.less');
+.test {
+    width: 400px;
+    height: 400px;
+}
 </style>

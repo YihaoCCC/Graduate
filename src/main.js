@@ -7,7 +7,6 @@ import App from './App.vue'
 import 'animate.css';
 //导入Svg图片插件，可以在页面上显示Svg图片
 import 'vite-plugin-svg-icons/register';
-// 阿里dataV动态组件
 
 
 
@@ -19,7 +18,7 @@ import $ from 'jquery';
 const app = createApp(App) //创建VUE对象
 
 
-// app.use(activeRingChart)
+
 // app.use(waterLevelPond)
 // app.use(scrollRankingBoard)
 
@@ -100,6 +99,10 @@ app.config.globalProperties.$echarts = echarts //设置全局变量$echarts
 let baseUrl = "http://localhost:8090/emos-api/"
 
 app.config.globalProperties.$baseUrl = baseUrl //设置全局变量$baseUrl
+
+// 自定义请求axios
+import yhRequest from '../src/utils/yhRequest.js'
+app.config.globalProperties.$yhRequest = yhRequest
 
 //封装全局Ajax公共函数
 app.config.globalProperties.$http = function(url, method, data, async, fun) {
