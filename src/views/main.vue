@@ -33,7 +33,7 @@
                 <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal">
                     <el-menu-item index="1" class="site-navbar__switch">
                         <template #title>
-                            <el-badge value="0"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
+                            <el-badge :value="99"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
                         </template>
                     </el-menu-item>
                     <el-menu-item class="site-navbar__avatar" index="3">
@@ -52,7 +52,7 @@
                     </el-menu-item>
                 </el-menu>
             </div>
-            <update-password v-if="updatePasswordVisible" ></update-password>
+            <update-password v-show="updatePasswordVisible" ref="updatePassword"></update-password>
         </nav>
         <aside class="site-sidebar site-sidebar--dark">
             <div class="site-sidebar__inner">
@@ -77,7 +77,7 @@
                             @click="$router.push({ name: 'Dept' })"
                             ref="ABC"
                         >
-                            <SvgIcon name="company_fill" class="icon-svg" />
+                            <SvgIcon name="warehouse_fill" class="icon-svg" />
                             <span >部门管理</span>
                         </el-menu-item>
                         <el-menu-item
@@ -93,13 +93,13 @@
                             v-if="isAuth(['ROOT', 'USER:SELECT'])"
                             @click="$router.push({ name: 'User' })"
                         >
-                            <SvgIcon name="user_fill" class="icon-svg" />
+                            <SvgIcon name="service_fill" class="icon-svg" />
                             <span >用户管理</span>
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="在线办公" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
                         <template #title>
-                            <SvgIcon name="meeting_fill" class="icon-svg" />
+                            <SvgIcon name="company_fill" class="icon-svg" />
                             <span >在线办公</span>
                         </template>
                         <el-menu-item
@@ -107,7 +107,7 @@
                             v-if="isAuth(['ROOT', 'WORKFLOW:APPROVAL', 'FILE:ARCHIVE'])"
                             @click="$router.push({ name: 'Approval' })"
                         >
-                            <SvgIcon name="warehouse_fill" class="icon-svg" />
+                            <SvgIcon name="tool_fill" class="icon-svg" />
                             <span >审批任务</span>
                         </el-menu-item>
                         <el-menu-item index="leave" @click="$router.push({ name: 'Leave' })">
@@ -119,7 +119,7 @@
                             <span  >违纪罚款</span>
                         </el-menu-item>
                         <el-menu-item index="reim" @click="$router.push({ name: 'Reim' })">
-                            <SvgIcon name="assurance_fill" class="icon-svg" />
+                            <SvgIcon name="money_fill" class="icon-svg" />
                             <span  >报销管理</span>
                         </el-menu-item>
                     </el-submenu>
@@ -148,7 +148,7 @@
                         v-if="isAuth(['ROOT'])"
                     >
                         <template #title>
-                            <SvgIcon name="system_fill" class="icon-svg" />
+                            <SvgIcon name="config" class="icon-svg" />
                             <span  >系统设置</span>
                         </template>
                         <el-menu-item index="amect-type" @click="$router.push({ name: 'AmectType' })">
@@ -226,13 +226,14 @@
 <script>
 import SvgIcon from '../components/SvgIcon.vue';
 import { isURL } from '../utils/validate';
-import UpdatePassword from './update-password.vue';
+import UpdatePassword from './changePassword/update-password.vue';
 import { ref, provide, onMounted, getCurrentInstance } from 'vue';
 
 
 export default {
 
     setup() {
+        const updatePassword = ref(null)
         const showModel = ref(null)
         const show = ref(false)
         const yiyan = ref('')
@@ -259,7 +260,8 @@ export default {
         return {
             showModel,
             show,
-            yiyan
+            yiyan,
+            updatePassword
         }
     },
     components: { SvgIcon, UpdatePassword },
@@ -365,11 +367,12 @@ export default {
             });
         },
         updatePasswordHandle: function() {
-            this.$router.push('/profile/changePassword')
-            // this.updatePassowrdVisible = true;
-            // this.$nextTick(() => {
-            //     this.$refs.updatePassword.init();
-            // });
+            // this.$router.push('/profile/changePassword')
+            this.updatePassowrdVisible = true;
+            
+            this.$nextTick(() => {
+                this.$refs.updatePassword.init();
+            });
           
         },
         selectedTabHandle: function(tab, e) {
@@ -449,7 +452,7 @@ export default {
     transform: translate(-20%,-10%);
     h1 {
         font-size: 86px;
-        background-image: linear-gradient(to bottom right, #7A88FF, #f17932);
+        background-image: linear-gradient(to bottom right, #1a2dda, #e47534, #32D296);
         -webkit-background-clip:text;
         -webkit-text-fill-color:transparent;
     }
@@ -475,6 +478,7 @@ export default {
 }
 .rightCard .el-card__body{
     background-color: #fff !important;
+    min-height: 430px;
 }
 .el-card__body {
     background-color: #f6f8f8 !important;

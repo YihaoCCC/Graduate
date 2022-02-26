@@ -7,7 +7,7 @@
             <div class="login-form">
                     <div class="title-container">
                                 <h2>Emos在线办公平台</h2>
-                                <span>( Ver 1.0 )</span>
+                                <span>( © Yihao Chen )</span>
                             </div>
                             <div v-if="!qrCodeVisible">
                                 <div class="row">

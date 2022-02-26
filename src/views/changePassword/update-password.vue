@@ -32,7 +32,7 @@ export default {
 		};
 
 		return {
-			visible: true,
+			visible: false,
 			dataForm: {
 				password: '',
 				newPassword: '',

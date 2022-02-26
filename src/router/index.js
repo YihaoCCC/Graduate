@@ -3,11 +3,10 @@ import {
 	createWebHashHistory
 }
 from 'vue-router'
-import Login from '../views/login/login.vue'
 import Main from "../views/main.vue"
 import Home from "../views/home/home.vue"
 import Role from "../views/role.vue"
-import User from "../views/user.vue"
+import User from "../views/userManage/user.vue"
 import Dept from "../views/dept.vue"
 import MeetingRoom from '../views/meeting_room.vue'
 import OfflineMeeting from "../views/offline_meeting.vue"
@@ -19,13 +18,11 @@ import Amect from "../views/amect.vue"
 import AmectType from "../views/amect_type.vue"
 import AmectReport from "../views/amect_report.vue"
 import Reim from "../views/reim.vue"
-import NotFound from "../views/404/404.vue"
-
 
 const routes = [{
 		path: '/login',
 		name: 'Login',
-		component: Login
+		component: () => import('../views/login/login.vue')
 	},
 	{
 		path: '/',
@@ -155,22 +152,13 @@ const routes = [{
 					title: '报销管理',
 					isTab: true
 				}
-			},
-			{
-				path: '/profile/changePassword',
-				name: 'changePassword',
-				component: () => import('../views/update-password.vue'),
-				meta: {
-					title: '个人中心',
-					isTab: true
-				}
 			}
 		]
 	},
 	{
 		path: "/404",
 		name: "NotFound",
-		component: NotFound
+		component: () => import ('../views/404/404.vue')
 	},
 	{
 		path: '/:pathMatch(.*)*',

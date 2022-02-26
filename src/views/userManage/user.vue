@@ -258,6 +258,14 @@ export default {
                 this.$refs.addOrUpdate.init(id);
             });
         },
+        dimissHandle() {
+            // this.dimissVisible = true
+            // this.$nextTick(() => {
+            //     this.$refs.dimiss.init()
+            // })
+            this.$message.warning('功能正在开发中')
+
+        },
         deleteHandle: function(id) {
             let that = this;
             let ids = id
