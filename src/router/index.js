@@ -18,7 +18,7 @@ import Amect from "../views/amect.vue"
 import AmectType from "../views/amect_type.vue"
 import AmectReport from "../views/amect_report.vue"
 import Reim from "../views/reim.vue"
-
+import Profile from '../views/profile/index.vue'
 const routes = [{
 		path: '/login',
 		name: 'Login',
@@ -150,6 +150,15 @@ const routes = [{
 				component: Reim,
 				meta: {
 					title: '报销管理',
+					isTab: true
+				}
+			},
+			{
+				path: '/profile',
+				name: 'profile',
+				component: Profile,
+				meta: {
+					title: '个人中心',
 					isTab: true
 				}
 			}

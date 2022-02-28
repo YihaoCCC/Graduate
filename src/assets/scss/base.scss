@@ -197,9 +197,11 @@ img {
 			vertical-align: inherit;
 		}
 		.el-dropdown-link {
+			background-image:-webkit-linear-gradient(left,rgb(17, 71, 218),rgb(255, 123, 0));
+			-webkit-background-clip:text;
+			-webkit-text-fill-color:transparent;
 			font-weight: bolder;
-			color: #ffd04b;
-			text-indent: 1em;
+			letter-spacing: 6px;
 			> img {
 				width: 36px;
 				height: auto;
@@ -432,4 +434,8 @@ img {
 }
 .input {
 	width: 160px !important;
+}
+// navive-ui重置
+.n-statistic-value {
+    text-align: center !important;
 }

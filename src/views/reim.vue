@@ -18,7 +18,7 @@
 					size="medium"
 					clearable="clearable"
 				>
-					<el-option v-for="one in deptList" :label="one.deptName" :value="one.id" />
+					<el-option v-for="one in deptList" :label="one.deptName" :value="one.id" :key="one.id" />
 				</el-select>
 			</el-form-item>
 			<el-form-item>
@@ -80,7 +80,7 @@
 							<div class="title">备注信息</div>
 							<div class="title">金额</div>
 						</div>
-						<div class="row" v-for="(one, $index) in scope.row.content">
+						<div class="row" v-for="(one, $index) in scope.row.content" :key="one.type">
 							<div class="col">{{ $index + 1 }}</div>
 							<div class="col">{{ one.type }}</div>
 							<div class="col">{{ one.title }}</div>

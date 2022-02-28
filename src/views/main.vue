@@ -44,6 +44,7 @@
                             </span>
                             <template #dropdown>
                                 <el-dropdown-menu>
+                                    <el-dropdown-item @click="goProfile">个人中心</el-dropdown-item>
                                     <el-dropdown-item @click="updatePasswordHandle()">修改密码</el-dropdown-item>
                                     <el-dropdown-item @click="logout">退出</el-dropdown-item>
                                 </el-dropdown-menu>
@@ -154,6 +155,20 @@
                         <el-menu-item index="amect-type" @click="$router.push({ name: 'AmectType' })">
                             <SvgIcon name="tool_fill" class="icon-svg" />
                             <span  >罚款类型</span>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu
+                        index="个人中心"
+                        :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'"
+                        
+                    >
+                         <template #title>
+                            <SvgIcon name="trust_fill" class="icon-svg" />
+                            <span >个人中心</span>
+                        </template>
+                        <el-menu-item index="amect-type" @click="$router.push({ name: 'profile' })">
+                            <SvgIcon name="xingqufill" class="icon-svg" />
+                            <span>个人中心</span>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -413,6 +428,9 @@ export default {
             this.mainTabs = [];
             this.menuActiveName = '';
             this.$router.push({ name: 'Home' });
+        },
+        goProfile() {
+            this.$router.push('/profile')
         }
     },
     mounted: function() {

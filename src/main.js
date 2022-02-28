@@ -17,7 +17,8 @@ import $ from 'jquery';
 
 const app = createApp(App) //创建VUE对象
 
-
+import { setupNaiveUI } from './plugins';
+setupNaiveUI(app)
 
 // app.use(waterLevelPond)
 // app.use(scrollRankingBoard)

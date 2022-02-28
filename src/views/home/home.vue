@@ -12,18 +12,21 @@
                 </div>
                 <div class="header-right">
                     <button class="today">
-                        today
+                        TODAY
                     </button >
                     <button class='mounth'>
-                        mouth
+                        MOUNTH
                     </button >
                     <button class='year'>
-                        year
+                        YEAR
                     </button>
                     <button class="sign" @click="signClick">
                         今日签到
                     </button>
                 </div>
+            </div>
+            <div class="myCard welcomeHeadedr">
+                <welcome-header :time="timeOfHour"></welcome-header>
             </div>
             <div class="overview-content">
                 <div class="item-box ">
@@ -36,7 +39,7 @@
                         </span>
                     </div>
                     <div class="login-time">
-                        2022年2月22日
+                        {{lastLoginTime}}
                     </div>
                 </div>
                 <div class="item-box">
@@ -66,7 +69,13 @@
                     <div class="rate">
                         66%
                     </div>
-                </div>  
+                </div>
+                 <div class="ShortCut  myCard">
+                     <div style="width: 100%"><h3 style="margin: 6px 0px 10px 10px ">快捷选项</h3></div>
+                    <div v-for="item in shortcuts" :key="item.id" class="iconbox" >
+                        <short-cut-card v-bind="item"   />
+                    </div>
+                </div> 
             </div>
 
         </div>
@@ -82,33 +91,26 @@
             <div class="second-content">
                 <div class="leftgragh">
                    <div class="myCard">
-                       <div id="container" style="min-width:400px;height:400px;"></div>
+                       <div id="container" style="min-width:400px;height:400px;border-radius:20px"></div>
                    </div>
                 </div>
                 <div class="center">
-                    <div class=" myCard top haspadding">
-                        <div class="test" id="test"  width='300px' height='300px' >
+                    <div class="top">
 
+                        <p > 毕设情况: 在线企业办公服务系统 </p>
+                        <div class="myCard centerFlex">
+                        
+                            <time-line></time-line>
+                        
                         </div>
                     </div>
-                    <div class="bottom">
-                        <div class="myCard">
-
-                            <el-card class="box-card">
-								<template #header>
-								<div class="card-header">
-									<span>Card name</span>
-									<el-button class="button" type="text">Operation button</el-button>
-								</div>
-								</template>
-								<div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
-							</el-card>
-                            
-                        </div>
-                        <div class="myCard haspadding">
-                            <dv-water-level-pond :config="config2" style="width:150px;height:200px" />
+                    <div class="top">
+                        <p style="margin-left: 6px; font-size:18px;font-wieght:bloder">毕设项目进度</p>
+                        <div class="myCard centerFlex">
+                            <step-project></step-project>
                         </div>
                     </div>
+                    
                     
                 </div>
                 <div class="rightCard">
@@ -182,13 +184,23 @@ import Highmaps from 'highcharts/modules/map';
 import {  getCurrentInstance, onMounted, ref } from 'vue';
 import gsap from 'gsap';
 import { ElMessage } from 'element-plus'
-
+import ShortCutCard from '../../components/ShortCutCard.vue'
+import WelcomeHeader from '../../components/WelcomeHeader.vue'
+import TimeLine from '../../components/TimeLine.vue'
+import StepProject from '../../components/StepProject.vue';
 HighchartsMore(Highcharts)
 HighchartsDrilldown(Highcharts);
 Highcharts3D(Highcharts);
 Highmaps(Highcharts);
 
 export default {
+    components: {
+        ShortCutCard,
+        WelcomeHeader,
+        TimeLine,
+        StepProject,
+        StepProject
+    },
     data () {
         return {
             showSign : 0,
@@ -213,6 +225,33 @@ export default {
         }
     },
     setup() {
+        const shortcuts = [
+            { id: 0, label: '系统主页', icon: 'mdi:desktop-mac-dashboard', iconColor: '#409eff', goWhere: '/' },
+            { id: 1, label: '我要请假', icon: 'ic:outline-settings', iconColor: '#7238d1', goWhere: '/leave' },
+            { id: 2, label: '我要报销', icon: 'mdi:family-tree', iconColor: '#f56c6c', goWhere: '/reim' },
+            { id: 3, label: '会议室', icon: 'mdi:table-large', iconColor: '#fab251', goWhere: '/offline_meeting' },
+            { id: 4, label: '我的消息', icon: 'fluent:app-store-24-filled', iconColor: '#19a2f1', goWhere: '/' },
+            { id: 5, label: '个人中心', icon: 'mdi:chart-areaspline', iconColor: '#8aca6b', goWhere: '/' }
+        ];
+        const statisticData = [
+            {
+                id: 0,
+                label: '在组项目数',
+                value: '25'
+            },
+            {
+                id: 1,
+                label: '我的待办',
+                value: '4/16'
+            },
+            {
+                id: 2,
+                label: '我的消息',
+                value: '12'
+            }
+        ];
+        const timeOfHour = ref(null)
+        const lastLoginTime = ref(null)
         const oldItem = ref(null)
         const newItem = ref('')
         let CurrentInstance = getCurrentInstance()
@@ -345,6 +384,7 @@ export default {
         const signClick = () => {
             sign.value ++
         }
+        
         onMounted(() => {
             // HighCharts饼图
             Highcharts.chart('container', {
@@ -372,7 +412,7 @@ export default {
                             }
                     },
                     title: {
-                            text: '小奕办公系统',
+                            text: '我参与的项目',
                     },
                     subtitle: {
                             text: '本阶段的任务饼图'
@@ -384,17 +424,17 @@ export default {
                             }
                     },
                     series: [{
-                            name: '货物金额',
+                            name: '项目占比（%）',
                             data: [
-                                    ['香蕉', 8],
-                                    ['猕猴桃', 3],
-                                    ['桃子', 1],
-                                    ['橘子', 6],
-                                    ['苹果', 8],
-                                    ['梨', 4],
-                                    ['柑橘', 4],
-                                    ['橙子', 1],
-                                    ['葡萄 (串)', 1]
+                                    ['卡单管理系统', 4],
+                                    ['哒哒利亚商城', 6],
+                                    ['在线音乐平台', 2],
+                                    ['小米商城', 6],
+                                    ['医院系统', 3],
+                                    ['圣诞项目', 4],
+                                    ['毕设办公系统', 4],
+                                    ['京东商城', 4],
+                                    ['数字大屏系统', 3]
                             ]
                     }]
             });
@@ -403,9 +443,11 @@ export default {
                 console.log(res.data)
                 today.value = res.data.gregorian
                 today.value = today.value.split(' ')[0]
+                lastLoginTime.value = res.data.gregorian
                 lunar.value = res.data.lunar
                 yearZodiac.value = res.data.yearZodiac
-                console.log(today.value.split(' ')[0])
+                timeOfHour.value = parseInt(res.data.gregorian.split(' ')[1].split(':')[0])
+                console.log( timeOfHour.value)
             })
             return {
                 todoList,
@@ -421,8 +463,11 @@ export default {
                 dialogVisible,
                 oldItem,
                 editItem,
-                
-                confirmAddItem
+                shortcuts,
+                statisticData,
+                timeOfHour, // 小时时间 
+                confirmAddItem,
+                lastLoginTime // 上次登录时间
             }
     }
 }
@@ -434,4 +479,5 @@ export default {
     width: 400px;
     height: 400px;
 }
+
 </style>
