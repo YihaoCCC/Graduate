@@ -70,11 +70,12 @@
 .avtarWelcome {
         width: 38%;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
         img {
             width: 60px;
             height: 60px;
+            margin-right: 30px;
         }
         .title {
             p {

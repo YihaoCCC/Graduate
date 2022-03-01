@@ -65,12 +65,12 @@
                 >
                     <el-menu-item index="home" @click="$router.push({ name: 'Home' })">
                         <SvgIcon name="home" class="icon-svg" />
-                        <span >系统主页</span>
+                        <span >主页</span>
                     </el-menu-item>
                     <el-submenu index="组织管理" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
                         <template #title>
                             <SvgIcon name="users_fill" class="icon-svg" />
-                            <span >组织管理</span>
+                            <span >部门管理</span>
                         </template>
                         <el-menu-item
                             index="dept"
@@ -101,7 +101,7 @@
                     <el-submenu index="在线办公" :popper-class="'site-sidebar--' + sidebarLayoutSkin + '-popper'">
                         <template #title>
                             <SvgIcon name="company_fill" class="icon-svg" />
-                            <span >在线办公</span>
+                            <span >企业办公</span>
                         </template>
                         <el-menu-item
                             index="approval"
@@ -109,15 +109,15 @@
                             @click="$router.push({ name: 'Approval' })"
                         >
                             <SvgIcon name="tool_fill" class="icon-svg" />
-                            <span >审批任务</span>
+                            <span >我的审批</span>
                         </el-menu-item>
                         <el-menu-item index="leave" @click="$router.push({ name: 'Leave' })">
                             <SvgIcon name="night_fill" class="icon-svg" />
-                            <span  >员工请假</span>
+                            <span  >请假中心</span>
                         </el-menu-item>
                         <el-menu-item index="amect" @click="$router.push({ name: 'Amect' })">
                             <SvgIcon name="cry_fill" class="icon-svg" />
-                            <span  >违纪罚款</span>
+                            <span  >罚款中心</span>
                         </el-menu-item>
                         <el-menu-item index="reim" @click="$router.push({ name: 'Reim' })">
                             <SvgIcon name="money_fill" class="icon-svg" />
@@ -166,9 +166,13 @@
                             <SvgIcon name="trust_fill" class="icon-svg" />
                             <span >个人中心</span>
                         </template>
-                        <el-menu-item index="amect-type" @click="$router.push({ name: 'profile' })">
+                        <el-menu-item index="amect-type" @click="$router.push({ name: 'Profile' })">
                             <SvgIcon name="xingqufill" class="icon-svg" />
-                            <span>个人中心</span>
+                            <span>关于我的</span>
+                        </el-menu-item>
+                        <el-menu-item index="amect-type" @click="$router.push({ name: 'Message' })">
+                            <SvgIcon name="duanxin" class="icon-svg" />
+                            <span>消息中心</span>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -243,6 +247,7 @@ import SvgIcon from '../components/SvgIcon.vue';
 import { isURL } from '../utils/validate';
 import UpdatePassword from './changePassword/update-password.vue';
 import { ref, provide, onMounted, getCurrentInstance } from 'vue';
+import { ElNotification } from 'element-plus';
 
 
 export default {
@@ -380,6 +385,11 @@ export default {
                 localStorage.removeItem('permissions');
                 that.$router.push({ name: 'Login' });
             });
+            ElNotification({
+                title: '退出登录成功！',
+                message: '请您重新登录系统！',
+                type: 'success',
+            })
         },
         updatePasswordHandle: function() {
             // this.$router.push('/profile/changePassword')

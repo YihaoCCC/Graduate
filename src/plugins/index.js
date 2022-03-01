@@ -8,7 +8,8 @@ import {
   NTimelineItem,
   NCard,
   NScrollbar,
-  NModal
+  NModal,
+  NButton
 } from 'naive-ui'
 
 export function setupNaiveUI(app) {
@@ -21,7 +22,8 @@ export function setupNaiveUI(app) {
             NTimelineItem,
             NCard,
             NScrollbar,
-            NModal
+            NModal,
+            NButton
         ]
     })
 

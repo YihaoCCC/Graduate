@@ -155,10 +155,19 @@ const routes = [{
 			},
 			{
 				path: '/profile',
-				name: 'profile',
+				name: 'Profile',
 				component: Profile,
 				meta: {
 					title: '个人中心',
+					isTab: true
+				}
+			},
+			{
+				path: '/message',
+				name: 'Message',
+				component: () => import('../views/message/message.vue'),
+				meta: {
+					title: '我的消息',
 					isTab: true
 				}
 			}

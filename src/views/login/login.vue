@@ -48,6 +48,7 @@
 import 'element-plus/lib/theme-chalk/display.css';
 import { isUsername, isPassword } from '../../utils/validate.js';
 import router from '../../router/index';
+import {ElNotification } from 'element-plus'
 export default {
     data: function() {
         return {
@@ -90,6 +91,11 @@ export default {
                         localStorage.setItem('token', token);
                         //让路由跳转页面，这里的Home是home.vue页面的名字
                         router.push({ name: 'Home' });
+                        ElNotification({
+                            title: '登录成功！',
+                            message: '欢迎您使用办公系统！',
+                            type: 'success',
+                        })
                     } else {
                         that.$message({
                             message: '登陆失败',

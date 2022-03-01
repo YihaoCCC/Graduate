@@ -230,8 +230,8 @@ export default {
             { id: 1, label: '我要请假', icon: 'ic:outline-settings', iconColor: '#7238d1', goWhere: '/leave' },
             { id: 2, label: '我要报销', icon: 'mdi:family-tree', iconColor: '#f56c6c', goWhere: '/reim' },
             { id: 3, label: '会议室', icon: 'mdi:table-large', iconColor: '#fab251', goWhere: '/offline_meeting' },
-            { id: 4, label: '我的消息', icon: 'fluent:app-store-24-filled', iconColor: '#19a2f1', goWhere: '/' },
-            { id: 5, label: '个人中心', icon: 'mdi:chart-areaspline', iconColor: '#8aca6b', goWhere: '/' }
+            { id: 4, label: '我的消息', icon: 'fluent:app-store-24-filled', iconColor: '#19a2f1', goWhere: '/message' },
+            { id: 5, label: '个人中心', icon: 'mdi:chart-areaspline', iconColor: '#8aca6b', goWhere: '/profile' }
         ];
         const statisticData = [
             {
