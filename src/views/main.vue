@@ -25,12 +25,31 @@
                         <SvgIcon name="zhedie" class="icon-svg" />
                     </el-menu-item>
                 </el-menu>
-                <div style="width:1200px;display:inline-block;text-align:center">
-                    <h5>
+                <div style="width:80%;height:50px;line-height:18px;display:inline-block;text-align:center">
+                    <h5 style="margin: 10px  0 0 0 ">
                         {{yiyan}}
                     </h5>
                 </div>
+                <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    :content="contentText"
+                    placement="bottom"
+                >
+                <div style="display:inline-block;"   >
+                    <svg  v-show='!fullscreen' @click="kaishi"  t="1646831999509" style="margin: auto;cursor:pointer" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2071" width="32" height="32">
+                            <path d="M358.4 768H426.666667v85.333333H213.333333v-213.333333h85.333334v68.266667l128-128 59.733333 59.733333-128 128z m345.6 0l-128-128 59.733333-59.733333 132.266667 132.266666V640h85.333333v213.333333h-213.333333v-85.333333h64zM358.4 298.666667l128 128-59.733333 59.733333-128-128V426.666667H213.333333V213.333333h213.333334v85.333334H358.4z m345.6 0H640V213.333333h213.333333v213.333334h-85.333333V354.133333l-132.266667 132.266667-59.733333-59.733333 128-128z" 
+                            fill="#666" p-id="2072"></path>
+                    </svg>
+                    <svg  v-show='fullscreen' @click="guanbi" t="1646833775043" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2509" width="32" height="32">
+                        <path d="M298.666667 631.466667H226.133333v-81.066667h217.6v204.8h-85.333333v-68.266667l-128 128L170.666667 759.466667l128-128z m422.4 0l128 128-59.733334 59.733333-128-128v68.266667h-85.333333V554.666667h217.6v81.066666h-72.533333zM298.666667 341.333333L187.733333 230.4 243.2 170.666667l115.2 115.2V217.6h85.333333v204.8H226.133333V341.333333H298.666667z m430.933333 0h64v81.066667h-217.6V217.6h85.333333v72.533333L780.8 170.666667l59.733333 59.733333L729.6 341.333333z" 
+                        fill="#666666" p-id="2510"></path>
+                    </svg>
+                </div>
+                
+                </el-tooltip>
                 <el-menu class="site-navbar__menu site-navbar__menu--right" mode="horizontal">
+                    
                     <el-menu-item index="1" class="site-navbar__switch">
                         <template #title>
                             <el-badge :value="99"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
@@ -257,7 +276,8 @@ export default {
         const showModel = ref(null)
         const show = ref(false)
         const yiyan = ref('')
-        
+        const fullscreen = ref(false)
+        const contentText = ref('点击或者按 F11 进入全屏')
         onMounted(() => {
 
             getCurrentInstance().appContext.config.globalProperties.$yhRequest.get('https://api.muxiaoguo.cn/api/yiyan?api_key=16d76a0353713b97').then((res) => {
@@ -281,7 +301,9 @@ export default {
             showModel,
             show,
             yiyan,
-            updatePassword
+            updatePassword,
+            fullscreen,
+            contentText,
         }
     },
     components: { SvgIcon, UpdatePassword },
@@ -441,6 +463,44 @@ export default {
         },
         goProfile() {
             this.$router.push('/profile')
+        },
+        kaishi()  {
+            this.fullscreen = true
+            this.contentText = '点击或按 F11 退出全屏'  
+            var docElm = document.documentElement;  
+            //W3C   
+            if (docElm.requestFullscreen) {  
+                docElm.requestFullscreen();  
+            }  
+                //FireFox   
+            else if (docElm.mozRequestFullScreen) {  
+                docElm.mozRequestFullScreen();  
+            }  
+                //Chrome等   
+            else if (docElm.webkitRequestFullScreen) {  
+                docElm.webkitRequestFullScreen();  
+            }  
+                //IE11   
+            else if (elem.msRequestFullscreen) {  
+                elem.msRequestFullscreen();  
+            }
+            console.log(this.fullscreen)  
+        },
+        guanbi() {
+            this.fullscreen = false  
+            this.contentText = '单击或按 F11 进入全屏' 
+            if (document.exitFullscreen) {  
+                document.exitFullscreen();  
+            }  
+            else if (document.mozCancelFullScreen) {  
+                document.mozCancelFullScreen();  
+            }  
+            else if (document.webkitCancelFullScreen) {  
+                document.webkitCancelFullScreen();  
+            }  
+            else if (document.msExitFullscreen) {  
+                document.msExitFullscreen();  
+            }  
         }
     },
     mounted: function() {
