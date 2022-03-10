@@ -97,17 +97,25 @@
                 <div class="center">
                     <div class="top">
 
-                        <p > 毕设情况: 在线企业办公服务系统 </p>
+                        <p> 毕设情况: 在线企业办公服务系统 </p>
                         <div class="myCard centerFlex">
-                        
-                            <time-line></time-line>
-                        
+                            
+                            <time-line ></time-line>
+
                         </div>
                     </div>
                     <div class="top">
-                        <p style="margin-left: 6px; font-size:18px;font-wieght:bloder">毕设项目进度</p>
+                        <div class="ProjectDetail">
+                            <span style="margin-left: 6px; font-size:18px;font-wieght:bloder">毕设项目进度</span>
+                            <button class="learn-more" @click="showChange">
+                                <span class="circle" aria-hidden="true">
+                                <span class="icon arrow"></span>
+                                </span>
+                                <span class="button-text">切换项目</span>
+                            </button>
+                        </div>
                         <div class="myCard centerFlex">
-                            <step-project></step-project>
+                            <step-project :isLoading='ProjectLoading'></step-project>
                         </div>
                     </div>
                     
@@ -172,6 +180,26 @@
             </span>
             </template>
         </el-dialog>
+        <n-modal
+            v-model:show="showChangeProject"
+            :mask-closable="false"
+            preset="dialog"
+        >
+            <template #header>
+                <div>请选择其中一个项目</div>
+            </template>
+                <div>
+                     <n-select v-model:value="ChangeProjectValue" :options="options" />
+                </div>
+            <template #action>
+                <div>
+                    <n-button @click="onPositiveClick">
+                        确认
+                    </n-button>
+                    
+                </div>
+            </template>
+        </n-modal>
     </div>
 </template>
 
@@ -188,6 +216,7 @@ import ShortCutCard from '../../components/ShortCutCard.vue'
 import WelcomeHeader from '../../components/WelcomeHeader.vue'
 import TimeLine from '../../components/TimeLine.vue'
 import StepProject from '../../components/StepProject.vue';
+import { ElNotification } from 'element-plus'
 HighchartsMore(Highcharts)
 HighchartsDrilldown(Highcharts);
 Highcharts3D(Highcharts);
@@ -318,7 +347,12 @@ export default {
             newItem.value = null
             dialogVisible.value = true
         }
+        const ProjectLoading = ref(false)
+        const showChange = () => {
+            showChangeProject.value = true
+        }
         const middleId = ref(null)
+        
         const confirmAddItem = () => {
             if(newItem.value) {
                 if(!oldItem.value) {
@@ -381,6 +415,33 @@ export default {
             }
         }
         const dialogVisible = ref(false)
+        const showChangeProject = ref(false)
+        const ChangeProjectValue = ref(null)
+        const options = ref([
+            
+                {
+                    label: "Drive My Car",
+                    value: "song1"
+                },
+                {
+                    label: "Norwegian Wood",
+                    value: "song2"
+                },
+            
+        ])
+        const onPositiveClick = () => {
+            console.log(ChangeProjectValue.value)
+            showChangeProject.value = false
+            ProjectLoading.value = true
+            setTimeout(() => {
+                ProjectLoading.value = false
+                ElNotification({
+                            title: '切换成功!',
+                            message: '项目溯源成功！请查看',
+                            type: 'success',
+                })
+            },3000)
+        }
         const signClick = () => {
             sign.value ++
         }
@@ -467,7 +528,13 @@ export default {
                 statisticData,
                 timeOfHour, // 小时时间 
                 confirmAddItem,
-                lastLoginTime // 上次登录时间
+                lastLoginTime, // 上次登录时间
+                showChangeProject, // 更改项目模态框
+                showChange,
+                ChangeProjectValue, // 更改项目后选择框的值
+                options, // 更改项目的选项
+                onPositiveClick,
+                ProjectLoading
             }
     }
 }

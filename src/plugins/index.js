@@ -9,7 +9,9 @@ import {
   NCard,
   NScrollbar,
   NModal,
-  NButton
+  NButton,
+  NSelect,
+  NSpin
 } from 'naive-ui'
 
 export function setupNaiveUI(app) {
@@ -23,7 +25,9 @@ export function setupNaiveUI(app) {
             NCard,
             NScrollbar,
             NModal,
-            NButton
+            NButton,
+            NSelect,
+            NSpin
         ]
     })
 

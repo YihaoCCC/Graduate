@@ -3,7 +3,7 @@
                     <img src="../assets/avatar01.svg" alt="">
                     <div class="title">
                         <p> {{time < 12 ? '早上好！': time < 14 ? '中午好' : '晚上好'}}，{{'SoyBean'}} ,
-                        {{time < 12 ? '今天又是充满活力的一天！': time < 14 ? '午休时间到啦，要注意休息哦！' : '晚上早点下班喔！'}} 
+                        {{time < 12 ? '今天又是充满活力的一天！': time < 14 ? '午休时间到啦，要注意休息哦！' : '早点下班，拒绝996！'}} 
                         </p>
                         <span>今日 <span style='color: #666;font-weight: bolder;'>天津</span>  ： <span >{{weather}}{{WD1}}</span> ，当前温度： 
                         <span style="color: #666;font-weight: bolder;">{{temp}}</span> ℃</span>

@@ -217,6 +217,9 @@ img {
 		padding-right: 15px;
 		background-color: #fff;
 		height: 50px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 	&__menu {
 		float: left;
@@ -448,4 +451,7 @@ img {
   }
   .el-table .green-row {
 	  background-color: #effde8;
+  }
+  .el-card__header {
+	  padding: 12px 20px 6px 20px !important;
   }
