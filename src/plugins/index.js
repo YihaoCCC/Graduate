@@ -11,7 +11,17 @@ import {
   NModal,
   NButton,
   NSelect,
-  NSpin
+  NSpin,
+  NDrawer,
+  NDrawerContent,
+  NForm,
+  NFormItemGi,
+  NGrid,
+  NSlider,
+  NSwitch,
+    NInput,
+    NDatePicker,
+    NInputNumber
 } from 'naive-ui'
 
 export function setupNaiveUI(app) {
@@ -27,7 +37,17 @@ export function setupNaiveUI(app) {
             NModal,
             NButton,
             NSelect,
-            NSpin
+            NSpin,
+            NDrawer,
+            NDrawerContent,
+            NForm,
+            NFormItemGi,
+            NGrid,
+            NSlider,
+            NDatePicker,
+            NInput,
+            NSwitch,
+            NInputNumber
         ]
     })
 

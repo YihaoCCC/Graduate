@@ -132,7 +132,7 @@
                         </el-menu-item>
                         <el-menu-item index="leave" @click="$router.push({ name: 'Leave' })">
                             <SvgIcon name="night_fill" class="icon-svg" />
-                            <span  >请假中心</span>
+                            <span  >请假管理</span>
                         </el-menu-item>
                         <el-menu-item index="amect" @click="$router.push({ name: 'Amect' })">
                             <SvgIcon name="cry_fill" class="icon-svg" />
@@ -310,7 +310,7 @@ export default {
     data: function() {
         return {
             navbarLayoutType: '',
-            sidebarFold: false,
+            sidebarFold: true,
             sidebarLayoutSkin: 'dark',
             name: '',
             photo: '',

@@ -6,7 +6,7 @@
         <div class="left">
             <div class="login-form">
                     <div class="title-container">
-                                <h2>Emos在线办公平台</h2>
+                                <h2>小奕在线办公服务系统</h2>
                                 <span>( © Yihao Chen )</span>
                             </div>
                             <div v-if="!qrCodeVisible">

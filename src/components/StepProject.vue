@@ -46,7 +46,6 @@ import { ref, defineProps } from 'vue'
 defineProps({
   isLoading: Boolean,
 })
-
 const active = ref(3)
 const centerDialogVisible = ref(false)
 const showModal = () => {

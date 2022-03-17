@@ -1,17 +1,14 @@
 <template>
-    <n-card hoverable title="项目列表" >
+    <n-card hoverable title="我的项目列表" >
          <template #header-extra>
              <el-button
-                    type="primary"
-                    icon="el-icon-delete"
+                    type="warning" plain
+                    icon="el-icon-plus"
                     class="handle-del mr10"
-                    @click="delAllSelection"
-                >批量删除</el-button>
-                <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
-                </el-select>
-                <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
+                    @click="AddNewProject"
+                >添加新项目</el-button>
+               
+                <el-input v-model="query.name" placeholder="请输入项目名称" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
          </template>
         <div class="container">
@@ -28,12 +25,12 @@
             >
                 <el-table-column  row-class-name='warning-row' type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-                <el-table-column prop="name" label="用户名" align="center"></el-table-column>
-                <el-table-column prop="money" label="帐户余额"  align="center"></el-table-column>
+                <el-table-column prop="name" label="项目名称" align="center"></el-table-column>
+                <el-table-column prop="money" label="项目进度"  align="center"></el-table-column>
 <!--                <el-table-column label="账户余额">-->
 <!--                    <template #default="scope">￥{{ scope.row.money }}</template>-->
 <!--                </el-table-column>-->
-                <el-table-column label="头像(查看大图)" align="center">
+                <el-table-column label="任务阶段占比" align="center">
                     <template #default="scope">
                         <el-image
                             class="table-td-thumb"
@@ -43,7 +40,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="address" label="地址" align="center" ></el-table-column>
-                <el-table-column label="状态" align="center">
+                <el-table-column label="项目完成情况" align="center">
                     <template #default="scope">
                         <el-tag
                             :type="
@@ -57,7 +54,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="date" label="注册时间" align="center"></el-table-column>
+                <el-table-column prop="date" label="交付时间" align="center"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template #default="scope">
                         <el-button
@@ -104,31 +101,53 @@
             </template>
         </el-dialog>
     </n-card>
+    <n-drawer v-model:show="active" :width="502">
+    <n-drawer-content>
+        <template #header>
+            新增我参与的项目
+        </template>
+        <div>
+            <add-form @closemodal='close' ></add-form>
+        </div>
+        <template #footer>
+            <n-button @click="close">关闭</n-button>
+        </template>
+        </n-drawer-content>
+    </n-drawer>
 </template>
 
 <script>
+import {ref} from 'vue'
+import AddForm from './AddForm.vue'
 export default {
     name: "basetable",
+    components : {
+        AddForm
+    },
     setup() {
-        const tableRowClassName = (
-          {
-  row,
-  rowIndex,
-}
-        
-        ) => {
-        if (rowIndex === 1) {
-            return 'warning-row'
-        } else if (rowIndex === 3) {
-            return 'success-row'
-        } else if (rowIndex === 5) {
-            return 'green-row'
+        const tableRowClassName = ({row, rowIndex,}) => {
+                if (rowIndex === 1) {
+                    return 'warning-row'
+                } else if (rowIndex === 3) {
+                    return 'success-row'
+                } else if (rowIndex === 5) {
+                    return 'green-row'
+                }
+            return ''
         }
-        return ''
+        const active = ref(false)
+        const activate = () => {
+            active.value = true
         }
         return {
-            tableRowClassName
-        }
+            tableRowClassName,
+            active,
+            activate,
+            close(payload) {
+                active.value = false
+                console.log(payload)
+            }
+        } 
     },
     data() {
         return {
@@ -140,7 +159,7 @@ export default {
             },
             tableData: [{
             id: 1,
-            name: "张三",
+            name: "哒哒利亚商城",
             money: 123,
             address: "广东省东莞市长安镇",
             state: "成功",
@@ -234,15 +253,8 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        delAllSelection() {
-            const length = this.multipleSelection.length;
-            let str = "";
-            this.delList = this.delList.concat(this.multipleSelection);
-            for (let i = 0; i < length; i++) {
-                str += this.multipleSelection[i].name + " ";
-            }
-            this.$message.error(`删除了${str}`);
-            this.multipleSelection = [];
+        AddNewProject() {
+            this.active = true
         },
         // 编辑操作
         handleEdit(index, row) {
