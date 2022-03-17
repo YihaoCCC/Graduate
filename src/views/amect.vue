@@ -18,7 +18,7 @@
 					size="medium"
 					clearable="clearable"
 				>
-					<el-option v-for="one in deptList" :label="one.deptName" :value="one.id" />
+					<el-option v-for="one in deptList" :label="one.deptName" :value="one.id" :key="one.id" />
 				</el-select>
 			</el-form-item>
 			<el-form-item>
@@ -29,7 +29,7 @@
 					size="medium"
 					clearable="clearable"
 				>
-					<el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" />
+					<el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" :key="one.type" />
 				</el-select>
 			</el-form-item>
 			<el-form-item>
@@ -116,7 +116,12 @@
 					<span>{{ scope.row.amount }}元</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="status" header-align="center" align="center" label="状态" />
+			<el-table-column prop="status" header-align="center" align="center" label="状态" >
+				<template #default='scope'>
+					<el-tag :type="scope.row.status=== '已缴纳'? 'success': 'danger'">{{scope.row.status}}</el-tag> 
+					
+				</template>
+			</el-table-column>
 			<el-table-column prop="createTime" header-align="center" align="center" label="日期时间" />
 			<el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
 				<template #default="scope">

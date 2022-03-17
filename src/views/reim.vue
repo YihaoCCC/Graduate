@@ -113,7 +113,14 @@
 					<span>{{ scope.row.balance }}元</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="status" header-align="center" align="center" label="状态" min-width="100" />
+			<el-table-column prop="status" header-align="center" align="center" label="状态" min-width="100" >
+				<template #default='scope'>
+					<el-tag :type="scope.row.status === '待审批' ? 'warning':'success'" effect="dark">
+					{{scope.row.status}}
+						</el-tag> 
+				</template>
+			</el-table-column>
+			
 			<el-table-column prop="createTime" header-align="center" align="center" label="申请日期" width="150" />
 			<el-table-column header-align="center" align="center" min-width="150" label="操作">
 				<template #default="scope">

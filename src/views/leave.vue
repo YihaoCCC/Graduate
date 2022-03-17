@@ -112,9 +112,8 @@
 			></el-table-column>
 			<el-table-column prop="status" header-align="center" align="center" label="请假状态" min-width="120">
 				<template #default="scope">
-					<span v-if="scope.row.status == '请假中'" style="color: orange;">{{ scope.row.status }}</span>
-					<span v-if="scope.row.status == '已同意'" style="color: #17B3A3;">{{ scope.row.status }}</span>
-					<span v-if="scope.row.status == '不同意'" style="color: #f56c6c;">{{ scope.row.status }}</span>
+					<el-tag :type="scope.row.status === '请假中' ? 'warning': scope.row.status === '已同意'?  'success':'danger'">{{ scope.row.status }}</el-tag>
+					
 				</template>
 			</el-table-column>
 			<el-table-column header-align="center" align="center" width="120" label="请假单" min-width="120">
@@ -127,6 +126,7 @@
 					>
 						请假单
 					</el-button>
+					<el-tag  v-else class="ml-2" type="info">暂无</el-tag>
 				</template>
 			</el-table-column>
 			<el-table-column header-align="center" align="center" width="150" label="操作" min-width="120">

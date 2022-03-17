@@ -10,12 +10,12 @@
                     clearable="clearable"
                 />
             </el-form-item>
-            <el-form-item>
+            <!-- <el-form-item>
                 <el-select v-model="dataForm.sex" class="input" placeholder="性别" size="medium" clearable="clearable">
                     <el-option label="男" value="男" />
                     <el-option label="女" value="女" />
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
                 <el-select v-model="dataForm.role" class="input" placeholder="角色" size="medium" clearable="clearable">
                     <el-option v-for="one in roleList" :label="one.roleName" :value="one.roleName" :key="one.roleName" />
@@ -74,13 +74,45 @@
             size="medium"
         >
             <el-table-column type="selection" header-align="center" align="center" width="50" />
-            <el-table-column type="index" header-align="center" align="center" width="100" label="序号">
+            <el-table-column type="index" header-align="center" align="center" width="60" label="序号">
                 <template #default="scope">
                     <span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>
                 </template>
             </el-table-column>
             <el-table-column prop="name" header-align="center" align="center" min-width="100" label="姓名" />
             <el-table-column prop="sex" header-align="center" align="center" min-width="60" label="性别" />
+            
+            <el-table-column prop="hiredate" header-align="center" align="center" min-width="130" label="入职日期" />
+            <el-table-column
+                
+                header-align="center"
+                align="center"
+                min-width="150"
+                label="角色"
+                :show-overflow-tooltip="true"
+            >
+                <template #default='scope' >
+                    <el-tag class="mx-1" 
+                        :type=" scope.row.roles === '部门经理' ? 'warning'  
+                        : scope.row.roles === 'HR' ? 'danger'
+                        : scope.row.roles === '超级管理员' ? 'info'
+                        : ''
+                        "
+                    
+                    >{{scope.row.roles}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column prop="dept" header-align="center" align="center" min-width="120" label="部门" />
+            <el-table-column prop="status" header-align="center" align="center" min-width="100" label="状态" >
+                <template #default='scope'>
+                    <el-tag class="ml-2"
+                    effect="dark"
+
+                    :type="scope.row.status==='在职'? 'success': 'warning'"
+                    > {{scope.row.status}}</el-tag>
+                   
+                </template>
+            </el-table-column>
             <el-table-column prop="tel" header-align="center" align="center" min-width="130" label="电话" />
             <el-table-column
                 prop="email"
@@ -90,17 +122,6 @@
                 label="邮箱"
                 :show-overflow-tooltip="true"
             />
-            <el-table-column prop="hiredate" header-align="center" align="center" min-width="130" label="入职日期" />
-            <el-table-column
-                prop="roles"
-                header-align="center"
-                align="center"
-                min-width="150"
-                label="角色"
-                :show-overflow-tooltip="true"
-            />
-            <el-table-column prop="dept" header-align="center" align="center" min-width="120" label="部门" />
-            <el-table-column prop="status" header-align="center" align="center" min-width="100" label="状态" />
             <el-table-column header-align="center" align="center" width="150" label="操作">
                 <template #default="scope">
                     <el-button
@@ -129,6 +150,7 @@
                     >
                         删除
                     </el-button>
+                    <el-tag v-else type="danger">没有权限</el-tag>
                 </template>
             </el-table-column>
         </el-table>
