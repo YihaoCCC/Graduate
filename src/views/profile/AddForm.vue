@@ -7,19 +7,26 @@
   >
     <n-grid :cols="24" >
       <n-form-item-gi :span="20" label="请输入项目名称" path="inputValue">
-        <n-input v-model:value="model.inputValue" placeholder="请输入项目名称" />
+        <n-input v-model:value="model.name" placeholder="请输入项目名称" />
+      </n-form-item-gi>
+      <n-form-item-gi :span="20" label="项目开始时间" path="datetimeValue">
+        <n-date-picker v-model:formatted-value="model.beginDate" value-format="yyyy-MM-dd" type="date" placeholder="请选择项目开始时间" />
       </n-form-item-gi>
       <n-form-item-gi :span="20" label="项目截至时间" path="datetimeValue">
-        <n-date-picker v-model:value="model.datetimeValue" type="datetime" placeholder="请选择项目截至时间" />
+        <n-date-picker v-model:formatted-value="model.endDate" value-format="yyyy-MM-dd" type="date" placeholder="请选择项目截至时间" />
       </n-form-item-gi>
-      <n-form-item-gi :span="20" label="项目占比" path="inputNumberValue">
-        <n-input-number :step="5" v-model:value="model.inputNumberValue" placeholder="项目占比单位(%)" />
+      <n-form-item-gi :span="20" label="项目内容简介" path="inputNumberValue">
+       <n-input
+          v-model:value="model.content"
+          type="textarea"
+          placeholder="项目内容简介"
+        />
       </n-form-item-gi>
       <n-form-item-gi :span="20" label="项目默认未完成" path="switchValue">
-        <n-switch v-model:value="model.switchValue" />
+        <n-switch v-model:value="model.switchValue" disable />
       </n-form-item-gi>
-      <n-form-item-gi :span="20" label="项目目前进度" disabled path="sliderValue">
-        <n-slider v-model:value="model.sliderValue" :step="5" />
+      <n-form-item-gi :span="20" label="项目目前进度" disabled >
+        <n-slider v-model:value="model.jindu" :step="1" :max='6' />
       </n-form-item-gi>
     </n-grid>
     <n-grid :col='24'>
@@ -33,37 +40,38 @@
 
 <script>
 import { defineComponent, ref,getCurrentInstance} from "vue";
-
+import  yhRequest  from '../../utils/yhRequest'
 export default defineComponent({
     emits: ['closemodal'],
   setup() {
     const formRef = ref(null);
     const emit = getCurrentInstance().emit
+    const model= ref({
+          userId: localStorage.getItem('USERID'),
+          name: null,
+          jindu: 0,
+          beginDate: null,
+          endDate: null,
+          content: null,
+      })
     const submit = () => {
-        
-        emit('closemodal',123)
+        yhRequest.post('/api/project/add', model.value).then((res) => {
+          if(res.code === 200) {
+            emit('closemodal',res.code)
+          }
+        })
     }
     return {
         submit,
-      formRef,
-      size: ref("medium"),
-      model: ref({
-        inputValue: null,
-        datetimeValue: null,
-        nestedValue: {
-          path1: null,
-          path2: null
-        },
-        switchValue: false,
-        inputNumberValue: null,
-        sliderValue: 0,
-      }),
+        formRef,
+        size: ref("medium"),
+        model,
 
       rules: {
         inputValue: {
           required: true,
           trigger: ["blur", "input"],
-          message: "请输入 项目名称"
+          message: "请输入项目名称"
         },
         datetimeValue: {
           type: "number",
@@ -76,13 +84,6 @@ export default defineComponent({
           required: true,
           trigger: ["blur", "change"],
           message: "请输入 inputNumberValue"
-        },
-        sliderValue: {
-          validator(rule, value) {
-            return value > 50;
-          },
-          trigger: ["blur", "change"],
-          message: "sliderValue 需要大于 50"
         }
       },
     };

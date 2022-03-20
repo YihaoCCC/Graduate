@@ -26,16 +26,16 @@
                 </div>
             </div>
             <div class="myCard welcomeHeadedr">
-                <welcome-header :time="timeOfHour"></welcome-header>
+                <welcome-header :time="timeOfHour" :name='user.name' :statisticData="statisticData"></welcome-header>
             </div>
             <div class="overview-content">
                 <div class="item-box ">
                     <div class="className">
-                        研发部门
+                        {{ user.dept?.deptName }}
                     </div>
                     <div class="name">
                         <span>
-                            陈奕豪
+                            {{user.name}}
                         </span>
                     </div>
                     <div class="login-time">
@@ -67,7 +67,7 @@
                         {{showSign.toFixed(0)}}
                     </div>
                     <div class="rate">
-                        66%
+                        {{12313}}
                     </div>
                 </div>
                  <div class="ShortCut  myCard">
@@ -97,16 +97,16 @@
                 <div class="center">
                     <div class="top">
 
-                        <p> 毕设情况: 在线企业办公服务系统 </p>
+                        <p> 项目情况: {{currentProject.name}} </p>
                         <div class="myCard centerFlex">
                             
-                            <time-line ></time-line>
+                            <time-line :timelines="TimeLine"></time-line>
 
                         </div>
                     </div>
                     <div class="top">
                         <div class="ProjectDetail">
-                            <span style="margin-left: 6px; font-size:18px;font-wieght:bloder">毕设项目进度</span>
+                            <span style="margin-left: 6px; font-size:18px;font-wieght:bloder">{{currentProject.name}} <em style="font-size:16px">项目进度</em> </span>
                             <button class="learn-more" @click="showChange">
                                 <span class="circle" aria-hidden="true">
                                 <span class="icon arrow"></span>
@@ -115,7 +115,7 @@
                             </button>
                         </div>
                         <div class="myCard centerFlex">
-                            <step-project :isLoading='ProjectLoading'></step-project>
+                            <step-project :isLoading='ProjectLoading' :currentPorject='currentProject'></step-project>
                         </div>
                     </div>
                     
@@ -133,7 +133,7 @@
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column width="40">
                             <template #default="scope">
-                                <el-checkbox v-model="scope.row.status"></el-checkbox>
+                                <el-checkbox v-model="scope.row.state" :checked='scope.row.state=== 1 ? true: false ' @change='changeDaiBan(scope.row)'></el-checkbox>
                             </template>
                         </el-table-column>
                         <el-table-column>
@@ -141,18 +141,18 @@
                                 <div
                                     class="todo-item"
                                     :class="{
-                                        'todo-item-del': scope.row.status,
+                                        'todo-item-del': scope.row.state,
                                     }"
-                                >{{ scope.row.title }}</div>
+                                >{{ scope.row.content }}</div>
                             </template>
                         </el-table-column>
                         <el-table-column width="60">
                             <template #default="scope">
 								<svg t="1645532866396" class="icon" @click="editItem(scope.row)" :class="{
-                                        'todo-item-del': scope.row.status,
+                                        'todo-item-del': scope.row.state,
                                     }" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3078" width="16" height="16"><path d="M848.937379 537.578518a38.363045 38.363045 0 0 0-38.387037 38.387037c0 1.495495 0.111962 2.879028 0.215927 4.262561h-0.215927V947.040246H76.934078V213.423982h400.92861c21.224833 0 38.387037-17.170202 38.387037-38.387037 0-21.224833-17.162204-38.387037-38.387037-38.387037H76.934078a76.72609 76.72609 0 0 0-76.774074 76.774074V947.040246c0 42.441668 34.332406 76.774074 76.774074 76.774074h733.616264c42.441668 0 76.774074-34.332406 76.774074-76.774074V580.228116h-0.20793c0.103965-1.383533 0.20793-2.767066 0.20793-4.262561 0-21.216835-17.162204-38.387037-38.387037-38.387037z" p-id="3079" fill="#409EFF"></path><path d="M1001.101994 107.107885L916.546547 22.552438c-29.965881-29.965881-78.805388-29.749954-108.763271 0.215927l-423.536975 423.536975a34.100485 34.100485 0 0 0-7.25355 10.876327L270.572688 708.184906c-5.965985 14.075247-1.80739 28.262456 7.25355 37.427361 9.06094 9.172902 23.352114 13.331498 37.531326 7.357515l251.115201-106.308101c4.054631-1.703425 7.677407-4.158596 10.876327-7.25355l423.536975-423.536975c29.965881-29.957883 30.181808-78.797391 0.215927-108.763271zM528.837474 579.164475l-146.510525 62.059043 62.059043-146.510525L741.669602 197.429384l84.451481 84.451481L528.837474 579.164475z m417.666957-417.674955l-66.105677 66.113674-84.451481-84.451481 66.105677-66.113674 0.215927-0.20793 84.451481 84.451482-0.215927 0.207929z" p-id="3080" fill="#409EFF"></path></svg>
                                 <svg t="1645532903328" class="icon"  @click="deleteItem(scope.$index,scope.row)" :class="{
-                                        'todo-item-del': !scope.row.status,
+                                        'todo-item-del': !scope.row.state,
                                     }" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3987" width="16" height="16"><path d="M608 768c-17.696 0-32-14.304-32-32L576 384c0-17.696 14.304-32 32-32s32 14.304 32 32l0 352C640 753.696 625.696 768 608 768z" p-id="3988" fill="#F56C6C"></path><path d="M416 768c-17.696 0-32-14.304-32-32L384 384c0-17.696 14.304-32 32-32s32 14.304 32 32l0 352C448 753.696 433.696 768 416 768z" p-id="3989" fill="#F56C6C"></path><path d="M928 224l-160 0L768 160c0-52.928-42.72-96-95.264-96L352 64C299.072 64 256 107.072 256 160l0 64L96 224C78.304 224 64 238.304 64 256s14.304 32 32 32l832 0c17.696 0 32-14.304 32-32S945.696 224 928 224zM320 160c0-17.632 14.368-32 32-32l320.736 0C690.272 128 704 142.048 704 160l0 64L320 224 320 160z" p-id="3990" fill="#F56C6C"></path><path d="M736.128 960 288.064 960c-52.928 0-96-43.072-96-96L192.064 383.52c0-17.664 14.336-32 32-32s32 14.336 32 32L256.064 864c0 17.664 14.368 32 32 32l448.064 0c17.664 0 32-14.336 32-32L768.128 384.832c0-17.664 14.304-32 32-32s32 14.336 32 32L832.128 864C832.128 916.928 789.056 960 736.128 960z" p-id="3991" fill="#F56C6C"></path></svg>
                             </template>
                         </el-table-column>
@@ -167,7 +167,7 @@
             title="我的待办事项"
             width="30%"
         >
-            <span v-if="oldItem">正在修改：“{{oldItem}} ”的待办事项</span>
+            <span v-if="oldItem">正在修改：“{{oldItem.content}} ”的待办事项</span>
             <span v-else>
                 添加新的待办事项
             </span>
@@ -217,11 +217,11 @@ import WelcomeHeader from '../../components/WelcomeHeader.vue'
 import TimeLine from '../../components/TimeLine.vue'
 import StepProject from '../../components/StepProject.vue';
 import { ElNotification } from 'element-plus'
+import yhRequest from '../../utils/yhRequest';
 HighchartsMore(Highcharts)
 HighchartsDrilldown(Highcharts);
 Highcharts3D(Highcharts);
 Highmaps(Highcharts);
-
 export default {
     components: {
         ShortCutCard,
@@ -230,224 +230,117 @@ export default {
         StepProject,
         StepProject
     },
+    // 默认是reactive 不是ref 直接用
     data () {
         return {
+            userId: localStorage.getItem('USERID'),
+            user: {},
+            mouthDay: 0,
             showSign : 0,
-            showOnboarding: 0
+            showOnboarding: 0,
+            projectList: [],
+            currentProject: {},
+            TimeLine:[],
+            statisticData: []
+        }
+    },
+    methods: {
+        newTimeLines(begin,end) {
+        let timelines= [ 
+                { type: 'default', title: '项目开始时间', content: '', time: begin },
+                { type: 'success', title: '需求分析', content: '', },
+                { type: 'error', title: '开发', content: '', },
+                { type: 'warning', title: '系统测试', content: '',  },
+                { type: 'info', title: '项目交付时间', content: '', time: end }
+            ]
+            return timelines
+        },
+        getInfo() {
+            const p = this.$yhRequest.get(`/api/user/queryByUserId/${this.userId}`).then((res) => {
+            this.user = res.obj
+            console.log(this.user)
+            this.sign = res.obj.signInDay
+            this.mouthDay = res.obj.mouthDay
+            return [this.sign,res.obj.workDay]
+        })
+        p.then(res => {
+            gsap.to(this, {
+                duration: 2,
+                showSign: res[0]
+            })
+            gsap.to(this, {
+                duration: 3,
+                showOnboarding: res[1]
+            })
+        })
+        },
+        getDaiBan() {
+            this.$yhRequest.get(`/api/daiban/queryByUserId/${this.userId}`).then((res) => {
+                this.todoList = res
+            })
+        },
+        changeDaiBan(item) {
+            console.log(item)
+            if( !this.oldItem) {
+                const copyItem = JSON.parse(JSON.stringify(item))
+                copyItem.state = copyItem.state? 1 : 0
+                this.$yhRequest.put('/api/daiban/update', copyItem).then(res => {
+                    this.getDaiBan()
+                })
+            } else {
+                this.oldItem.content = this.newItem
+                this.$yhRequest.put('/api/daiban/update', this.oldItem).then(res => {
+                    ElMessage({
+                            message: '修改成功！',
+                            type: 'success'
+                    })
+                    this.getDaiBan()
+                })
+            }  
+        },
+        getProject() {
+            return this.$yhRequest.get(`/api/project/queryByUserId/${this.userId}`).then(res => {
+                this.projectList = res,
+                this.currentProject = res[0]
+                this.TimeLine =  this.newTimeLines(this.currentProject?.beginDate,this.currentProject?.endDate)
+                return this.initChartData()
+            })
+            
+        },
+        initChartData() {
+            let chartData = []
+            const chartDataNumber = 1
+            this.projectList.forEach((item) => {
+                chartData.push([item.name,chartDataNumber])
+            })
+            return chartData
+        },
+        collectDaibanProject() {
+            this.statisticData = [
+                    {
+                        id: 0,
+                        label: '在组项目数',
+                        value:  this.projectList.length
+                    },
+                    {
+                        id: 1,
+                        label: '我的待办',
+                        value: this.todoList.length
+                    },
+                    {
+                        id: 2,
+                        label: '我的消息',
+                        value: '12'
+                    }
+            ];
         }
     },
     mounted() {
-        console.log(this.sign)
-        gsap.to(this, {
-            duration: 2,
-            showSign: this.sign
-        })
-        gsap.to(this, {
-            duration: 3,
-            showOnboarding: this.Onboarding
-        })
-    },
-    watch: {
-        sign(newValue,old) {
-            console.log(newValue,old)
-            this.showSign = newValue
-        }
-    },
-    setup() {
-        const shortcuts = [
-            { id: 0, label: '系统主页', icon: 'mdi:desktop-mac-dashboard', iconColor: '#409eff', goWhere: '/' },
-            { id: 1, label: '我要请假', icon: 'ic:outline-settings', iconColor: '#7238d1', goWhere: '/leave' },
-            { id: 2, label: '我要报销', icon: 'mdi:family-tree', iconColor: '#f56c6c', goWhere: '/reim' },
-            { id: 3, label: '会议室', icon: 'mdi:table-large', iconColor: '#fab251', goWhere: '/offline_meeting' },
-            { id: 4, label: '我的消息', icon: 'fluent:app-store-24-filled', iconColor: '#19a2f1', goWhere: '/message' },
-            { id: 5, label: '个人中心', icon: 'mdi:chart-areaspline', iconColor: '#8aca6b', goWhere: '/profile' }
-        ];
-        const statisticData = [
-            {
-                id: 0,
-                label: '在组项目数',
-                value: '25'
-            },
-            {
-                id: 1,
-                label: '我的待办',
-                value: '4/16'
-            },
-            {
-                id: 2,
-                label: '我的消息',
-                value: '12'
-            }
-        ];
-        const timeOfHour = ref(null)
-        const lastLoginTime = ref(null)
-        const oldItem = ref(null)
-        const newItem = ref('')
-        let CurrentInstance = getCurrentInstance()
-        let $yhRequest = CurrentInstance.appContext.config.globalProperties.$yhRequest
-        const today = ref('')
-        const lunar = ref('')
-        const yearZodiac = ref('')
-        const sign = ref(20)
-        const Onboarding = ref(1886)
-        const todoList= ref([
-                {
-                    id: 1,
-                    title: "今天要修复100个bug",
-                    status: false
-                },
-                {
-                    id: 2,
-                    title: "小奕办公管理系统",
-                    status: false
-                },
-                {
-                    id: 3,
-                    title: "今天要写100行代码加几个bug吧",
-                    status: false
-                },
-                {
-                    id: 4,
-                    title: "今天要写100行代码加几个bug吧今天要写100行代码加几个bug吧今天要写100行代码加几个bug吧今天要写100行代码加几个bug吧今天要写100行代码加几个bug吧",
-                    status: false
-                },
-                {
-                    id: 5,
-                    title: "今天要修复100个bug",
-                    status: true
-                },
-                {
-                    id: 6,
-                    title: "今天要写100行代码加几个bug吧",
-                    status: true
-                },
-                {
-                    id: 7,
-                    title: "今天要写100行代码加几个bug吧",
-                    status: false
-                },
-                {
-                    id: 8,
-                    title: "今天要写100行代码加几个bug吧",
-                    status: true
-                },
-                {
-                    id: 9,
-                    title: "今天要写100行代码加几个bug吧",
-                    status: true
-                },
-                {
-                    id: 10,
-                    title: '这是我的毕业设计',
-                    status: false
-                }
-            ])
-        const addItem = () => {
-            oldItem.value = null
-            newItem.value = null
-            dialogVisible.value = true
-        }
-        const ProjectLoading = ref(false)
-        const showChange = () => {
-            showChangeProject.value = true
-        }
-        const middleId = ref(null)
         
-        const confirmAddItem = () => {
-            if(newItem.value) {
-                if(!oldItem.value) {
-                    todoList.value.push({
-                        id: todoList.value.length + 2,
-                        title: newItem.value,
-                        status: false
-                    })
-                    newItem.value = null
-                    ElMessage({
-                        message: '添加待办成功！',
-                        type: 'success'
-                    })
-                    dialogVisible.value = false
-                } else {
-                    todoList.value.forEach((i) => {
-                    if( i.id === middleId.value) {
-                        i.title = newItem.value
-                    }
-                    })
-                    ElMessage({
-                        message: '修改成功！',
-                        type: 'success'
-                    })
-                    dialogVisible.value = false
-                }
-            } else {
-                 ElMessage({
-                    message: '不可为空！',
-                    type: 'warning',
-                })
-            }
-        }
-        const editItem = (item) => {
-            if(!item.status) {
-                dialogVisible.value = true
-                oldItem.value = item.title
-                middleId.value = item.id
-            } else {
-                ElMessage({
-                    message: '当前待办已完成，不可修改！',
-                    type: 'error'
-                })
-            }
-            
-        }
-        const deleteItem= (index,item) => {
-            if(item.status) {
-                todoList.value.splice(index,1)
-                console.log(todoList.value)
-                ElMessage({
-                    message: '删除成功',
-                    type: "success"
-                })
-            } else {
-                ElMessage({
-                    message: '当前待办未完成，不可删除',
-                    type: "error"
-                })
-            }
-        }
-        const dialogVisible = ref(false)
-        const showChangeProject = ref(false)
-        const ChangeProjectValue = ref(null)
-        const options = ref([
-            
-                {
-                    label: "Drive My Car",
-                    value: "song1"
-                },
-                {
-                    label: "Norwegian Wood",
-                    value: "song2"
-                },
-            
-        ])
-        const onPositiveClick = () => {
-            console.log(ChangeProjectValue.value)
-            showChangeProject.value = false
-            ProjectLoading.value = true
-            setTimeout(() => {
-                ProjectLoading.value = false
-                ElNotification({
-                            title: '切换成功!',
-                            message: '项目溯源成功！请查看',
-                            type: 'success',
-                })
-            },3000)
-        }
-        const signClick = () => {
-            sign.value ++
-        }
-        
-        onMounted(() => {
-            // HighCharts饼图
+        this.getInfo()
+        this.getDaiBan()
+        this.getProject().then(res => {
+        // HighCharts饼图
             Highcharts.chart('container', {
                     chart: {
                             type: 'pie',
@@ -485,21 +378,174 @@ export default {
                             }
                     },
                     series: [{
-                            name: '项目占比（%）',
-                            data: [
-                                    ['卡单管理系统', 4],
-                                    ['哒哒利亚商城', 6],
-                                    ['在线音乐平台', 2],
-                                    ['小米商城', 6],
-                                    ['医院系统', 3],
-                                    ['圣诞项目', 4],
-                                    ['毕设办公系统', 4],
-                                    ['京东商城', 4],
-                                    ['数字大屏系统', 3]
-                            ]
+                            data: res
                     }]
-            });
+        });
+        }).then(() => {
+            this.collectDaibanProject()
+        })
+
+    },
+    setup() {
+        let { proxy } = getCurrentInstance();
+        const shortcuts = [
+            { id: 0, label: '系统主页', icon: 'mdi:desktop-mac-dashboard', iconColor: '#409eff', goWhere: '/' },
+            { id: 1, label: '我要请假', icon: 'ic:outline-settings', iconColor: '#7238d1', goWhere: '/leave' },
+            { id: 2, label: '我要报销', icon: 'mdi:family-tree', iconColor: '#f56c6c', goWhere: '/reim' },
+            { id: 3, label: '会议室', icon: 'mdi:table-large', iconColor: '#fab251', goWhere: '/offline_meeting' },
+            { id: 4, label: '我的消息', icon: 'fluent:app-store-24-filled', iconColor: '#19a2f1', goWhere: '/message' },
+            { id: 5, label: '个人中心', icon: 'mdi:chart-areaspline', iconColor: '#8aca6b', goWhere: '/profile' }
+        ];
+        const statisticData = [
+            {
+                id: 0,
+                label: '在组项目数',
+                value: '25'
+            },
+            {
+                id: 1,
+                label: '我的待办',
+                value: '4/16'
+            },
+            {
+                id: 2,
+                label: '我的消息',
+                value: '12'
+            }
+        ];
+        const timeOfHour = ref(null)
+        const lastLoginTime = ref(null)
+        const oldItem = ref(null)
+        const newItem = ref('')
+        let CurrentInstance = getCurrentInstance()
+        let $yhRequest = CurrentInstance.appContext.config.globalProperties.$yhRequest
+        const today = ref('')
+        const lunar = ref('')
+        const yearZodiac = ref('')
+        const sign = ref()
+        const Onboarding = ref(1886)
+        const todoList= ref()
+        const addItem = () => {
+            oldItem.value = null
+            newItem.value = null
+            dialogVisible.value = true
+        }
+        const ProjectLoading = ref(false)
+        const showChange = () => {
+            showChangeProject.value = true
+            let currentOptions = []
+            proxy.projectList.forEach((item,index) => {
+                currentOptions.push({
+                    label: item.name,
+                    value: index
+                })
             })
+            options.value = currentOptions
+            
+        }
+        const middleId = ref(null)
+        
+        const confirmAddItem = () => {
+            if(newItem.value) {
+                if(!oldItem.value) {
+                    yhRequest.post('/api/daiban/add', {
+                        userId: proxy.userId,
+                        content: newItem.value
+                    }) .then(res => {
+                        newItem.value = null
+                        proxy.getDaiBan()
+                    
+                        ElMessage({
+                            message: '添加待办成功！',
+                            type: 'success'
+                        })
+                        dialogVisible.value = false
+                    }) 
+                } else {
+                    // todoList.value.forEach((i) => {
+                    // if( i.id === middleId.value) {
+                    //     i.title = newItem.value
+                    // }
+                    // })
+                    proxy.changeDaiBan(proxy.oldItem.value)
+                    dialogVisible.value = false
+                }
+            } else {
+                 ElMessage({
+                    message: '不可为空！',
+                    type: 'warning',
+                })
+            }
+        }
+        const editItem = (item) => {
+            if(!item.status) {
+                dialogVisible.value = true
+                oldItem.value = item
+                // middleId.value = item.id
+            } else {
+                ElMessage({
+                    message: '当前待办已完成，不可修改！',
+                    type: 'error'
+                })
+            }
+            
+        }
+        const deleteItem= (index,item) => {
+            // /daiban/delete/{id}
+            if(item.state) {
+                yhRequest.delete(`/api/daiban/delete/${item.id}`).then(res => {
+                   if(res.code === 200 ) {
+                        proxy.getDaiBan()
+                        ElMessage({
+                            message: '删除成功',
+                            type: "success"
+                        })
+                   }
+                })
+            } else {
+                ElMessage({
+                    message: '当前待办未完成，不可删除',
+                    type: "error"
+                })
+            }
+        }
+        const dialogVisible = ref(false)
+        const showChangeProject = ref(false)
+        const ChangeProjectValue = ref(null)
+        const options = ref(null)
+        const onPositiveClick = () => {
+            proxy.currentProject = proxy.projectList[ChangeProjectValue.value]
+            proxy.TimeLine =  proxy.newTimeLines(proxy.currentProject?.beginDate,proxy.currentProject?.endDate)
+            showChangeProject.value = false
+            ProjectLoading.value = true
+            setTimeout(() => {
+                ProjectLoading.value = false
+                ElNotification({
+                            title: '切换成功!',
+                            message: '项目溯源成功！请查看',
+                            type: 'success',
+                })
+            },2000)
+        }
+        const signClick = () => {
+            yhRequest.post('/api/signIn/add', {
+                userId: localStorage.getItem("USERID")
+            }).then(res => {
+                if( res.code === 200 ) {
+                    proxy.getInfo()
+                    ElNotification({
+                            title: '签到成功!',
+                            message: '今日签到成功！请查看',
+                            type: 'success',
+                })
+                } else {
+                    ElNotification({
+                        title: res.message,
+                        type: 'warning',
+                })
+                }
+            })
+        }
             $yhRequest.get('https://api.muxiaoguo.cn/api/yinlongli?api_key=cef2258d2716a7a3').then((res) => {
                 console.log(res.data)
                 today.value = res.data.gregorian
@@ -508,7 +554,6 @@ export default {
                 lunar.value = res.data.lunar
                 yearZodiac.value = res.data.yearZodiac
                 timeOfHour.value = parseInt(res.data.gregorian.split(' ')[1].split(':')[0])
-                console.log( timeOfHour.value)
             })
             return {
                 todoList,

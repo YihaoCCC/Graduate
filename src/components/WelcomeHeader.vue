@@ -2,7 +2,7 @@
     <div class="avtarWelcome">
                     <img src="../assets/avatar01.svg" alt="">
                     <div class="title">
-                        <p> {{time < 12 ? '早上好！': time < 14 ? '中午好' : '晚上好'}}，{{'SoyBean'}} ,
+                        <p> {{time < 12 ? '早上好！': time < 14 ? '中午好' : '晚上好'}}，{{name}} ,
                         {{time < 12 ? '今天又是充满活力的一天！': time < 14 ? '午休时间到啦，要注意休息哦！' : '早点下班，拒绝996！'}} 
                         </p>
                         <span>今日 <span style='color: #666;font-weight: bolder;'>天津</span>  ： <span >{{weather}}{{WD1}}</span> ，当前温度： 
@@ -21,6 +21,8 @@
     export default {
         props: {
             time: Number,
+            name: String,
+            statisticData: Array
         },
         setup() {
             const temp = ref(null)
@@ -33,30 +35,11 @@
                temp.value = res.data.temp
                weather.value = res.data.weather
                limitnumber.value = res = res.data.limitnumber
-               WD1.value = res.data.WD
-
             })
         })
         
-        const statisticData = [
-                    {
-                        id: 0,
-                        label: '在组项目数',
-                        value: '25'
-                    },
-                    {
-                        id: 1,
-                        label: '我的待办',
-                        value: '4/16'
-                    },
-                    {
-                        id: 2,
-                        label: '我的消息',
-                        value: '12'
-                    }
-            ];
+        
             return {
-                statisticData,
                 temp,
                 weather,
                 limitnumber,

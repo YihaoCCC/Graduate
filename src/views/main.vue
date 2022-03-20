@@ -155,12 +155,12 @@
                         </el-menu-item>
                         <el-menu-item index="demo-echarts" @click="$router.push({ name: 'OfflineMeeting' })">
                             <SvgIcon name="trust_fill" class="icon-svg" />
-                            <span  >线下会议</span>
+                            <span  >会议中心</span>
                         </el-menu-item>
-                        <el-menu-item index="demo-echarts" @click="$router.push({ name: 'OnlineMeeting' })">
+                        <!-- <el-menu-item index="demo-echarts" @click="$router.push({ name: 'OnlineMeeting' })">
                             <SvgIcon name="service_fill" class="icon-svg" />
                             <span  >线上会议</span>
-                        </el-menu-item>
+                        </el-menu-item> -->
                     </el-submenu>
                     <el-submenu
                         index="系统设置"
@@ -187,7 +187,7 @@
                         </template>
                         <el-menu-item index="amect-type" @click="$router.push({ name: 'Profile' })">
                             <SvgIcon name="xingqufill" class="icon-svg" />
-                            <span>关于我的</span>
+                            <span>个人中心</span>
                         </el-menu-item>
                         <el-menu-item index="amect-type" @click="$router.push({ name: 'Message' })">
                             <SvgIcon name="duanxin" class="icon-svg" />
@@ -288,14 +288,12 @@ export default {
          // 关闭蒙版
         const closeModel = () => {
             setTimeout(() => {
-            console.log(showModel)
             show.value = true
             // showModel.value.addAttribute('class', 'animate__animated animate__fadeOut')
             }, 5000)
         }
         setTimeout(() => {
             showModel.value.style.display = 'none'
-            console.log(showModel.value.style)
         },5500)
         return {
             showModel,

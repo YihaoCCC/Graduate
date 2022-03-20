@@ -14,7 +14,7 @@
         <div class="container">
             
             <el-table
-                :data="tableData"
+                :data="tableDate"
                 border
                 class="table"
                 ref="multipleTable"
@@ -26,35 +26,35 @@
                 <el-table-column  row-class-name='warning-row' type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="项目名称" align="center"></el-table-column>
-                <el-table-column prop="money" label="项目进度"  align="center"></el-table-column>
+                <el-table-column prop="jindu" label="项目进度"  align="center">
+                    <template #default='scope'>
+                        {{scope.row.jindu === 6 ? '项目已完成' : scope.row.jindu}}
+                    </template>
+                </el-table-column>
 <!--                <el-table-column label="账户余额">-->
 <!--                    <template #default="scope">￥{{ scope.row.money }}</template>-->
 <!--                </el-table-column>-->
-                <el-table-column label="任务阶段占比" align="center">
-                    <template #default="scope">
-                        <el-image
-                            class="table-td-thumb"
-                            :src="scope.row.thumb"
-                            :preview-src-list="[scope.row.thumb]"
-                        ></el-image>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="address" label="地址" align="center" ></el-table-column>
+                
+                <el-table-column prop="content" label="项目内容简介" align="center" ></el-table-column>
                 <el-table-column label="项目完成情况" align="center">
                     <template #default="scope">
                         <el-tag
                             :type="
-                                scope.row.state === '成功'
+                                scope.row.state === '已完成'
                                     ? 'success'
-                                    : scope.row.state === '失败'
+                                    : scope.row.state === '未完成'
                                     ? 'danger'
                                     : ''
                             "
                         >{{ scope.row.state }}</el-tag>
                     </template>
                 </el-table-column>
-
-                <el-table-column prop="date" label="交付时间" align="center"></el-table-column>
+                <el-table-column label="项目开始时间" align="center">
+                    <template #default="scope">
+                        {{scope.row.beginDate}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="endDate" label="项目交付时间" align="center"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template #default="scope">
                         <el-button
@@ -86,11 +86,11 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" v-model="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
-                <el-form-item label="用户名">
+                <el-form-item label="项目名称">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
-                <el-form-item label="地址">
-                    <el-input v-model="form.address"></el-input>
+                <el-form-item label="项目简介">
+                    <el-input v-model="form.content"></el-input>
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -117,14 +117,25 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref,onMounted} from 'vue'
 import AddForm from './AddForm.vue'
+import yhRequest from '../../utils/yhRequest'
 export default {
     name: "basetable",
     components : {
         AddForm
     },
     setup() {
+        const tableDate = ref(null)
+        const getProject = () => {
+            yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
+                tableDate.value = res
+                console.log(tableDate.value)
+            })
+        }
+        onMounted(() => {
+            getProject()
+        })
         const tableRowClassName = ({row, rowIndex,}) => {
                 if (rowIndex === 1) {
                     return 'warning-row'
@@ -141,11 +152,16 @@ export default {
         }
         return {
             tableRowClassName,
+            tableDate,
             active,
             activate,
             close(payload) {
-                active.value = false
-                console.log(payload)
+                if(payload === 200 ) {
+                    getProject()
+                    active.value = false
+                    console.log(payload)
+                }
+                
             }
         } 
     },
@@ -157,61 +173,6 @@ export default {
                 pageIndex: 1,
                 pageSize: 10
             },
-            tableData: [{
-            id: 1,
-            name: "哒哒利亚商城",
-            money: 123,
-            address: "广东省东莞市长安镇",
-            state: "成功",
-            date: "2019-11-1",
-            thumb: "https://lin-xin.gitee.io/images/post/wms.png"
-        },
-        {
-            id: 2,
-            name: "李四",
-            money: 456,
-            address: "广东省广州市白云区",
-            state: "成功",
-            date: "2019-10-11",
-            thumb: "https://lin-xin.gitee.io/images/post/node3.png"
-        },
-        {
-            id: 3,
-            name: "王五",
-            money: 789,
-            address: "湖南省长沙市",
-            state: "失败",
-            date: "2019-11-11",
-            thumb: "https://lin-xin.gitee.io/images/post/parcel.png"
-        },
-        {
-            id: 4,
-            name: "赵六",
-            money: 1011,
-            address: "福建省厦门市鼓浪屿",
-            state: "成功",
-            date: "2019-10-20",
-            thumb: "https://lin-xin.gitee.io/images/post/notice.png"
-        },
-        {
-            id: 5,
-            name: "赵六",
-            money: 1011,
-            address: "福建省厦门市鼓浪屿",
-            state: "成功",
-            date: "2019-10-20",
-            thumb: "https://lin-xin.gitee.io/images/post/notice.png"
-        },
-        {
-            id: 6,
-            name: "赵六",
-            money: 1011,
-            address: "福建省厦门市鼓浪屿",
-            state: "成功",
-            date: "2019-10-20",
-            thumb: "https://lin-xin.gitee.io/images/post/notice.png"
-        }
-    ],
             multipleSelection: [],
             delList: [],
             editVisible: false,
@@ -223,27 +184,23 @@ export default {
     },
    
     methods: {
-        
-        // 获取 easy-mock 的模拟数据
-        getData() {
-            fetchData(this.query).then(res => {
-                console.log(res);
-                this.tableData = res.list;
-                this.pageTotal = res.pageTotal || 50;
-            });
-        },
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, "pageIndex", 1);
             this.getData();
         },
         // 删除操作
-        handleDelete(index) {
+        handleDelete(index,item) {
             // 二次确认删除
             this.$confirm("确定要删除吗？", "提示", {
                 type: "warning"
             })
                 .then(() => {
+                    this.$yhRequest.delete(`/api/project/delete/${item.id}`).then(res => {
+                        this.$yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
+                            this.tableDate = res
+                        })
+                    })
                     this.$message.success("删除成功");
                     this.tableData.splice(index, 1);
                 })
@@ -266,13 +223,14 @@ export default {
         // 保存编辑
         saveEdit() {
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
+            this.$yhRequest.put('/api/project/update', this.form).then(res => {
+                console.log(res)
+                this.$message.success(`修改项目信息成功`);
+            })
         },
         // 分页导航
         handlePageChange(val) {
-            this.$set(this.query, "pageIndex", val);
-            this.getData();
+
         }
     }
 };

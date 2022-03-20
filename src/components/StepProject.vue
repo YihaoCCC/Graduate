@@ -1,7 +1,7 @@
 <template>
     <div v-if="!isLoading" style="min-height:110px">
 
-        <el-steps :active="active" finish-status="success">
+        <el-steps :active="currentPorject.jindu" finish-status="success">
             <el-step title="开始"></el-step>
             <el-step title="开题"></el-step>
             <el-step title="开发"></el-step>
@@ -9,7 +9,7 @@
             <el-step title="论文"></el-step>
             <el-step title="答辩"></el-step>
         </el-steps>
-        <el-button  plain style="margin-top: 12px;width:100%" @click="showModal">下一步</el-button>
+        <el-button  plain style="margin-top: 12px;width:100%" @click="showModal" :disabled='currentPorject.jindu === 6'>下一步</el-button>
    </div>
    <div v-else style="min-height:110px;" >    
      <div class="loader">
@@ -40,25 +40,52 @@
     </template>
   </el-dialog>
 </template>
-<script lang="ts" setup>
+<script lang="ts">
 import { ElMessage } from 'element-plus'
-import { ref, defineProps } from 'vue'
-defineProps({
-  isLoading: Boolean,
-})
-const active = ref(3)
-const centerDialogVisible = ref(false)
-const showModal = () => {
-    centerDialogVisible.value = true
-}
-const next = () => {
-  if (active.value++ > 5) active.value = 0
-}
-const confirm= () => {
-    next()
-    centerDialogVisible.value = false
+import { ref } from 'vue'
+import yhRequest from '../utils/yhRequest'
+export default {
+  props: ['isLoading', 'currentPorject' ],
+  setup(props) {
+    
+    // defineProps({
+    //   isLoading: Boolean,
+    //   currentPorject: Object,
+    // })
+    const active = ref(3)
+    const centerDialogVisible = ref(false)
+    const showModal = () => {
+        centerDialogVisible.value = true
+    }
+    const next = () => {
+      if (active.value++ > 5) active.value = 0
+    }
+    const confirm= () => {
+    // next()
+    // 
+    props.currentPorject.jindu += 1
+    if (props.currentPorject.jindu === 6) {
+      props.currentPorject.state = '已完成'
+    } 
+    yhRequest.put('/api/project/update', props.currentPorject).then(res => {
+      console.log(res)
+      centerDialogVisible.value = false
+      })
+    console.log(props.currentPorject)
     ElMessage.success('恭喜您，离毕业又进一步！')
 }
+    return {
+    centerDialogVisible,
+    showModal,
+    next,
+    confirm
+    }
+  }
+}
+
+
+
+
 </script>
 <style scoped>
 .dialog-footer button:first-child {

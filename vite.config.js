@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import viteSvgIcons from 'vite-plugin-svg-icons';
 
 
-
 module.exports = {
 	base: '/',
 	server: {
@@ -11,7 +10,14 @@ module.exports = {
 		//是否弹出浏览器
 		open: false,
 		//允许跨域
-		cors: true
+		cors: true,
+		proxy: {
+			"/api": {
+				target: "http://localhost:8888",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ""),
+			  },
+		}
 	},
 	plugins: [
 		vue(),

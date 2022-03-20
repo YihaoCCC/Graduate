@@ -49,6 +49,8 @@ import 'element-plus/lib/theme-chalk/display.css';
 import { isUsername, isPassword } from '../../utils/validate.js';
 import router from '../../router/index';
 import {ElNotification } from 'element-plus'
+
+import yhRequest from '../../utils/yhRequest'
 export default {
     data: function() {
         return {
@@ -81,6 +83,11 @@ export default {
             } else {
                 let data = { username: that.username, password: that.password };
                 //发送登陆请求
+                yhRequest.get(`/api/user/login/${that.username}&${that.password}`).then((res) => {
+                    localStorage.setItem('USERID', res?.obj.id)
+                    localStorage.setItem('USERNAME', res?.obj.name)
+                    localStorage.setItem('DEPT', res.obj?.dept.deptName)
+                })
                 that.$http('user/login', 'POST', data, true, function(resp) {
                     if (resp.result) {
                         //在浏览器的storage中存储用户权限列表，这样其他页面也可使用storage中的数据，实现共享
