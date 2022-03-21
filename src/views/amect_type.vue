@@ -43,12 +43,12 @@
                     <span>{{ scope.row.money }}元</span>
                 </template>
             </el-table-column>
-            <el-table-column header-align="center" align="center" label="系统自带">
+            <!-- <el-table-column header-align="center" align="center" label="系统自带">
                 <template #default="scope">
                     <span>{{ scope.row.systemic ? '是' : '否' }}</span>
                 </template>
-            </el-table-column>
-            <el-table-column header-align="center" align="center" label="未缴罚款数量">
+            </el-table-column> -->
+            <el-table-column header-align="center" align="center" label="罚款数量">
                 <template #default="scope">
                     <span>{{ scope.row.notPay == 0 ? '--' : scope.row.notPay + '个' }}</span>
                 </template>

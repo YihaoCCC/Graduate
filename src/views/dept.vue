@@ -10,24 +10,24 @@
                     clearable="clearable"
                 />
             </el-form-item>
-            <el-form-item>
+            <el-form-item >
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
                 <el-button
                     size="medium"
                     type="primary"
-                    :disabled="!isAuth(['ROOT', 'DEPT:INSERT'])"
+                    :disabled="!isAuth(['ROOT'])"
                     @click="addHandle()"
                 >
                     新增
                 </el-button>
-                <el-button
+                <!-- <el-button
                     size="medium"
                     type="danger"
-                    :disabled="!isAuth(['ROOT', 'DEPT:DELETE'])"
+                    :disabled="!isAuth(['ROOT'])"
                     @click="deleteHandle()"
                 >
                     批量删除
-                </el-button>
+                </el-button> -->
             </el-form-item>
         </el-form>
         <el-table
@@ -65,7 +65,7 @@
                     <el-button
                         type="text"
                         size="medium"
-                        :disabled="!isAuth(['ROOT', 'DEPT:UPDATE'])"
+                        :disabled="!isAuth(['ROOT'])"
                         @click="updateHandle(scope.row.id)"
                     >
                         修改

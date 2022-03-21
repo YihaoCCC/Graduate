@@ -52,7 +52,7 @@
                     
                     <el-menu-item index="1" class="site-navbar__switch">
                         <template #title>
-                            <el-badge :value="99"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
+                            <el-badge :value="66"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
                         </template>
                     </el-menu-item>
                     <el-menu-item class="site-navbar__avatar" index="3">
@@ -538,7 +538,7 @@ export default {
     transform: translate(-20%,-10%);
     h1 {
         font-size: 86px;
-        background-image: linear-gradient(to bottom right, #1a2dda, #e47534, #32D296);
+        background-image: linear-gradient(to bottom right, #da1ac0, #e47534, #32D296);
         -webkit-background-clip:text;
         -webkit-text-fill-color:transparent;
     }

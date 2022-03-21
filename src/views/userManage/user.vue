@@ -32,7 +32,7 @@
                     <el-option v-for="one in deptList" :label="one.deptName" :value="one.id" :key="one.id" />
                 </el-select>
             </el-form-item>
-            <el-form-item>
+            <!-- <el-form-item>
                 <el-select
                     v-model="dataForm.status"
                     class="input"
@@ -43,7 +43,7 @@
                     <el-option label="在职" value="1" />
                     <el-option label="离职" value="2" />
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
                 <el-button
@@ -82,7 +82,7 @@
             <el-table-column prop="name" header-align="center" align="center" min-width="100" label="姓名" />
             <el-table-column prop="sex" header-align="center" align="center" min-width="60" label="性别" />
             
-            <el-table-column prop="hiredate" header-align="center" align="center" min-width="130" label="入职日期" />
+            <!-- <el-table-column prop="hiredate" header-align="center" align="center" min-width="130" label="入职日期" /> -->
             <el-table-column
                 
                 header-align="center"
@@ -142,8 +142,8 @@
                         离职
                     </el-button>
                     <el-button
-                        type="text"
-                        size="medium"
+                        type="warning" plain
+                        size="small"
                         :disabled="scope.row.root"
                         v-if="isAuth(['ROOT', 'USER:DELETE'])"
                         @click="deleteHandle(scope.row.id)"
@@ -189,7 +189,7 @@ export default {
             roleList: [],
             deptList: [],
             pageIndex: 1,
-            pageSize: 10,
+            pageSize: 15,
             totalCount: 0,
             dataListLoading: false,
             dataListSelections: [],

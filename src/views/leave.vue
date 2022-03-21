@@ -54,7 +54,10 @@
 			</el-form-item>
 			<el-form-item>
 				<el-button @click="searchHandle()" type="primary" size="medium">查询</el-button>
-				<el-button type="danger" size="medium" @click="addHandle()">我要请假</el-button>
+				<n-button style="margin-left:15px" strong secondary type="warning" @click="addHandle()">
+					我要请假
+				</n-button>
+				
 			</el-form-item>
 		</el-form>
 		<el-table

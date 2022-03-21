@@ -67,7 +67,7 @@
                         {{showSign.toFixed(0)}}
                     </div>
                     <div class="rate">
-                        {{12313}}
+                        {{'36%'}}
                     </div>
                 </div>
                  <div class="ShortCut  myCard">
@@ -133,7 +133,7 @@
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column width="40">
                             <template #default="scope">
-                                <el-checkbox v-model="scope.row.state" :checked='scope.row.state=== 1 ? true: false ' @change='changeDaiBan(scope.row)'></el-checkbox>
+                                <el-checkbox v-model="scope.row.state"  @change='changeDaiBan(scope.row)'></el-checkbox>
                             </template>
                         </el-table-column>
                         <el-table-column>
@@ -276,19 +276,17 @@ export default {
         },
         getDaiBan() {
             this.$yhRequest.get(`/api/daiban/queryByUserId/${this.userId}`).then((res) => {
+                res.map(item => {
+                    item.state = item.state === 1 ? true : false
+                })
                 this.todoList = res
+                this.statisticData = this.collectDaibanProject(this.projectList.length,this.todoList.length)
             })
         },
         changeDaiBan(item) {
-            console.log(item)
-            if( !this.oldItem) {
-                const copyItem = JSON.parse(JSON.stringify(item))
-                copyItem.state = copyItem.state? 1 : 0
-                this.$yhRequest.put('/api/daiban/update', copyItem).then(res => {
-                    this.getDaiBan()
-                })
-            } else {
+            if(item?.state === undefined) {
                 this.oldItem.content = this.newItem
+                this.oldItem.state = this.oldItem.state ? 1 : 0
                 this.$yhRequest.put('/api/daiban/update', this.oldItem).then(res => {
                     ElMessage({
                             message: '修改成功！',
@@ -296,7 +294,14 @@ export default {
                     })
                     this.getDaiBan()
                 })
-            }  
+            } else {
+                 const copyItem = JSON.parse(JSON.stringify(item))
+                copyItem.state =  item.state ? 1 : 0
+                console.log(copyItem)
+                this.$yhRequest.put('/api/daiban/update', copyItem).then(res => {
+                    // this.getDaiBan()
+                })
+            }
         },
         getProject() {
             return this.$yhRequest.get(`/api/project/queryByUserId/${this.userId}`).then(res => {
@@ -315,17 +320,17 @@ export default {
             })
             return chartData
         },
-        collectDaibanProject() {
-            this.statisticData = [
+        collectDaibanProject( proNum, todoNum ) {
+            return [
                     {
                         id: 0,
                         label: '在组项目数',
-                        value:  this.projectList.length
+                        value:  proNum
                     },
                     {
                         id: 1,
                         label: '我的待办',
-                        value: this.todoList.length
+                        value: todoNum 
                     },
                     {
                         id: 2,
@@ -338,9 +343,9 @@ export default {
     mounted() {
         
         this.getInfo()
-        this.getDaiBan()
         this.getProject().then(res => {
-        // HighCharts饼图
+            this.getDaiBan()
+            // HighCharts饼图
             Highcharts.chart('container', {
                     chart: {
                             type: 'pie',
@@ -381,10 +386,7 @@ export default {
                             data: res
                     }]
         });
-        }).then(() => {
-            this.collectDaibanProject()
         })
-
     },
     setup() {
         let { proxy } = getCurrentInstance();
@@ -396,23 +398,7 @@ export default {
             { id: 4, label: '我的消息', icon: 'fluent:app-store-24-filled', iconColor: '#19a2f1', goWhere: '/message' },
             { id: 5, label: '个人中心', icon: 'mdi:chart-areaspline', iconColor: '#8aca6b', goWhere: '/profile' }
         ];
-        const statisticData = [
-            {
-                id: 0,
-                label: '在组项目数',
-                value: '25'
-            },
-            {
-                id: 1,
-                label: '我的待办',
-                value: '4/16'
-            },
-            {
-                id: 2,
-                label: '我的消息',
-                value: '12'
-            }
-        ];
+        
         const timeOfHour = ref(null)
         const lastLoginTime = ref(null)
         const oldItem = ref(null)
@@ -452,9 +438,8 @@ export default {
                         userId: proxy.userId,
                         content: newItem.value
                     }) .then(res => {
-                        newItem.value = null
                         proxy.getDaiBan()
-                    
+                        newItem.value = null
                         ElMessage({
                             message: '添加待办成功！',
                             type: 'success'
@@ -462,11 +447,7 @@ export default {
                         dialogVisible.value = false
                     }) 
                 } else {
-                    // todoList.value.forEach((i) => {
-                    // if( i.id === middleId.value) {
-                    //     i.title = newItem.value
-                    // }
-                    // })
+
                     proxy.changeDaiBan(proxy.oldItem.value)
                     dialogVisible.value = false
                 }
@@ -478,7 +459,7 @@ export default {
             }
         }
         const editItem = (item) => {
-            if(!item.status) {
+            if(!item.state) {
                 dialogVisible.value = true
                 oldItem.value = item
                 // middleId.value = item.id
@@ -491,7 +472,6 @@ export default {
             
         }
         const deleteItem= (index,item) => {
-            // /daiban/delete/{id}
             if(item.state) {
                 yhRequest.delete(`/api/daiban/delete/${item.id}`).then(res => {
                    if(res.code === 200 ) {
@@ -570,7 +550,6 @@ export default {
                 oldItem,
                 editItem,
                 shortcuts,
-                statisticData,
                 timeOfHour, // 小时时间 
                 confirmAddItem,
                 lastLoginTime, // 上次登录时间

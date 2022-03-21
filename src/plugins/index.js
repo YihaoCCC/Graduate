@@ -21,7 +21,8 @@ import {
   NSwitch,
     NInput,
     NDatePicker,
-    NInputNumber
+    NInputNumber,
+    NAlert,
 } from 'naive-ui'
 
 export function setupNaiveUI(app) {
@@ -47,7 +48,8 @@ export function setupNaiveUI(app) {
             NDatePicker,
             NInput,
             NSwitch,
-            NInputNumber
+            NInputNumber,
+            NAlert
         ]
     })
 

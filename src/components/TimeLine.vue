@@ -15,7 +15,12 @@
 
 export default {
     props: ['timelines'],
-
+    // watch:{
+    //     timelines(val) {
+    //         console.log('数据变化')
+    //         console.log(val)
+    //     }
+    // }
  
 }
 

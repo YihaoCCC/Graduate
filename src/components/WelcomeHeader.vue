@@ -13,7 +13,6 @@
                 <n-space :size="24" :wrap="false">
                     <n-statistic v-for="item in statisticData" :key="item.id" class="whitespace-nowrap" v-bind="item"></n-statistic>
                 </n-space>
-   
 </template>
 
 <script>
@@ -24,7 +23,14 @@
             name: String,
             statisticData: Array
         },
+        watch: {
+            statisticData(val) {
+                 console.log('数据变化')
+                console.log(val)
+            }
+        },
         setup() {
+            
             const temp = ref(null)
             const weather = ref(null)
             const limitnumber = ref(null)
@@ -37,8 +43,6 @@
                limitnumber.value = res = res.data.limitnumber
             })
         })
-        
-        
             return {
                 temp,
                 weather,

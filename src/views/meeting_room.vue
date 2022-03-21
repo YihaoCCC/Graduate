@@ -10,13 +10,13 @@
                     clearable="clearable"
                 />
             </el-form-item>
-            <el-form-item>
+            <!-- <el-form-item>
                 <el-select v-model="dataForm.canDelete" class="input" placeholder="条件" size="medium">
                     <el-option label="全部" value="all" />
                     <el-option label="可删除" value="true" />
                     <el-option label="不可删除" value="false" />
                 </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
                 <el-button
@@ -53,14 +53,15 @@
                 </template>
             </el-table-column>
             <el-table-column prop="name" header-align="center" align="center" min-width="150" label="会议室名称" />
-            <el-table-column header-align="center" align="center" min-width="120" label="人数上限">
+            <!-- <el-table-column header-align="center" align="center" min-width="120" label="人数">
                 <template #default="scope">
                     <span>{{ scope.row.max }}人</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column header-align="center" align="center" min-width="100" label="状态">
                 <template #default="scope">
-                    <span>{{ scope.row.status == 1 ? '可使用' : '已停用' }}</span>
+                    <el-tag :type="scope.row.status === 1 ? 'success':'danger'">{{ scope.row.status == 1 ? '可使用' : '已停用'}}</el-tag>
+                    <!-- <span>{{ scope.row.status == 1 ? '可使用' : '已停用' }}</span> -->
                 </template>
             </el-table-column>
             <el-table-column prop="desc" header-align="center" align="center" label="备注" min-width="400" />

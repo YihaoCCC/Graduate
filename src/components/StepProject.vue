@@ -2,14 +2,17 @@
     <div v-if="!isLoading" style="min-height:110px">
 
         <el-steps :active="currentPorject.jindu" finish-status="success">
-            <el-step title="开始"></el-step>
-            <el-step title="开题"></el-step>
-            <el-step title="开发"></el-step>
-            <el-step title="中期"></el-step>
-            <el-step title="论文"></el-step>
-            <el-step title="答辩"></el-step>
+            <el-step title="可行性"></el-step>
+            <el-step title="需求分析"></el-step>
+            <el-step title="软件设计"></el-step>
+            <el-step title="软件开发"></el-step>
+            <el-step title="项目测试"></el-step>
+            <el-step title="交付"></el-step>
         </el-steps>
-        <el-button  plain style="margin-top: 12px;width:100%" @click="showModal" :disabled='currentPorject.jindu === 6'>下一步</el-button>
+         <n-alert v-if="currentPorject.jindu === 6" :title="`${currentPorject.name}~项目已完成`" type="success">
+          恭喜您，在项目交付前完成该项目！
+        </n-alert>
+        <el-button  plain style="margin-top: 12px;width:100%" @click="showModal" v-else>下一步</el-button>
    </div>
    <div v-else style="min-height:110px;" >    
      <div class="loader">
