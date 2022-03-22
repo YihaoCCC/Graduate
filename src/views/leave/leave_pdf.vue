@@ -1,7 +1,7 @@
 <template>
 	<el-dialog width="780px" :close-on-click-modal="false" v-model="visible" :show-close="false">
 		<div id="pdfDom">
-			<h2 class="title">员工请假单</h2>
+			<h2 class="title">请假单</h2>
 			<table class="leave-table">
 				<tr align="center">
 					<td width="14%">姓名</td>
@@ -23,15 +23,10 @@
 					<td align="center">请假事由</td>
 					<td colspan="5">{{ reason }}</td>
 				</tr>
-				<tr>
-					<td align="center">此处签字</td>
-					<td colspan="2"></td>
-					<td align="center">人事盖章</td>
-					<td colspan="3"></td>
-				</tr>
+				
 			</table>
 
-			<p class="desc">备注：员工请假期间一切责任自负，假期结束后应及时返回工作岗位，否则按照旷工处理。</p>
+			<!-- <p class="desc">备注：员工请假期间一切责任自负，假期结束后应及时返回工作岗位，否则按照旷工处理。</p> -->
 		</div>
 		<template #footer>
 			<span class="dialog-footer">

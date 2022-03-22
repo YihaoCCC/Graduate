@@ -189,7 +189,7 @@
                 <div>请选择其中一个项目</div>
             </template>
                 <div>
-                     <n-select v-model:value="ChangeProjectValue" :options="options" />
+                     <n-select placeholder="请选择项目" v-model:value="ChangeProjectValue" :options="options" />
                 </div>
             <template #action>
                 <div>
@@ -297,7 +297,6 @@ export default {
             } else {
                  const copyItem = JSON.parse(JSON.stringify(item))
                 copyItem.state =  item.state ? 1 : 0
-                console.log(copyItem)
                 this.$yhRequest.put('/api/daiban/update', copyItem).then(res => {
                     // this.getDaiBan()
                 })
@@ -305,10 +304,14 @@ export default {
         },
         getProject() {
             return this.$yhRequest.get(`/api/project/queryByUserId/${this.userId}`).then(res => {
-                this.projectList = res,
-                this.currentProject = res[0]
-                this.TimeLine =  this.newTimeLines(this.currentProject?.beginDate,this.currentProject?.endDate)
-                return this.initChartData()
+                this.projectList = res
+                if(res.length > 0) {
+                    this.currentProject = res[0]
+                    this.TimeLine =  this.newTimeLines(this.currentProject?.beginDate,this.currentProject?.endDate)
+                    return this.initChartData()
+                } else {
+                    return [[]]
+                }
             })
             
         },

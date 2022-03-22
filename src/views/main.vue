@@ -25,7 +25,7 @@
                         <SvgIcon name="zhedie" class="icon-svg" />
                     </el-menu-item>
                 </el-menu>
-                <div style="width:80%;height:50px;line-height:18px;display:inline-block;text-align:center">
+                <div style="width:79%;height:50px;line-height:18px;display:inline-block;text-align:center">
                     <h5 style="margin: 12px  0 0 0 ">
                         {{yiyan}}
                     </h5>

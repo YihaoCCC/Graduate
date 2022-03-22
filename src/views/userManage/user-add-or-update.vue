@@ -167,6 +167,10 @@ export default {
 						deptId: that.dataForm.deptId,
 						status: that.dataForm.status
 					};
+					that.$yhRequest.post('/api/user/add', data).then((res) => {
+						console.log('api add user')
+						console.log(res)
+					})
 					that.$http(`user/${!that.dataForm.id?'insert':'update'}`,"POST",data,true,function(resp){
 						if(resp.rows==1){
 							that.$message({

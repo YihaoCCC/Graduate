@@ -26,9 +26,10 @@
                     <template #header-extra>
                         <a class="text-primary" href="javascript:;">更多项目</a>
                     </template>
-                    项目一
-                    <el-progress :percentage="71.3" color="#42b983"></el-progress>项目二
-                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>项目三
+                    {{One?.name || null}}
+                    <el-progress :percentage="One?.jindu || 66" color="#42b983"></el-progress>
+                    {{Two?.name || null}}
+                    <el-progress :percentage="Two?.jindu || 66" color="#f1e05a"></el-progress>项目三
                     <el-progress :percentage="13.7"></el-progress>项目四
                     <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
                 </n-card>
@@ -47,9 +48,38 @@
 
 import ProjectTable from './ProjectTable.vue'
 import { useRouter } from 'vue-router'
+import { ref } from '@vue/reactivity'
+import yhRequest from '../../utils/yhRequest'
+import { onMounted } from '@vue/runtime-core'
+import { theme } from 'highcharts'
 export default {
   components: { ProjectTable },
     setup() {
+        const project = ref(null)
+        const One = ref(null)
+        const Two = ref(null)
+        const Three = ref(null)
+        const Four = ref(null)
+        const getProject = () => {
+            yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
+                project.value = res
+                console.log('idnex')
+                console.log(project.value)
+                if(res[0]) {
+                    One.value = res[0]
+                } else if(res[1]) {
+                    Two.value = res[1]
+                } else if(res[2]){
+                    Three.value = res[2]
+                } else if(res[3]) {
+                    Four.value = res[3]
+                }
+                
+            })
+        }
+        onMounted(() => {
+            getProject()
+        })
         const router = useRouter()
         const goMessage = () => {
             router.push('/message')
@@ -59,7 +89,12 @@ export default {
         return {
             goMessage,
             username,
-            dept
+            project,
+            dept,
+            One,
+            Two,
+            Three,
+            Four
         }
     }
 }

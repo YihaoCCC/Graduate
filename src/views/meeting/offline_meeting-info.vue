@@ -24,7 +24,7 @@
                 <el-col :span="3" class="label">人员：</el-col>
                 <el-col :span="21" class="value">
                     <ul class="list">
-                        <li class="item" v-for="one in members">
+                        <li class="item" v-for="one in members" :key="one.name">
                             <img :src="one.photo" class="photo" />
                             <span class="name">{{ one.name }}</span>
                         </li>
@@ -35,7 +35,7 @@
                 <el-col :span="3" class="label">参会：</el-col>
                 <el-col :span="21" class="value">
                     <ul class="list">
-                        <li class="item" v-for="one in present">
+                        <li class="item" v-for="one in present" :key="one.name">
                             <img :src="one.photo" class="photo" />
                             <span class="name">{{ one.name }}</span>
                         </li>
@@ -46,7 +46,7 @@
                 <el-col :span="3" class="label">缺席：</el-col>
                 <el-col :span="21" class="value">
                     <ul class="list">
-                        <li class="item" v-for="one in unpresent">
+                        <li class="item" v-for="one in unpresent" :key="one.name"> 
                             <img :src="one.photo" class="photo" />
                             <span class="name">{{ one.name }}</span>
                         </li>

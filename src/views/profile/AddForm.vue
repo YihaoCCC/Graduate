@@ -2,7 +2,6 @@
   <n-form
     ref="formRef"
     :model="model"
-    :rules="rules"
     label-placement="top"
   >
     <n-grid :cols="24" >
@@ -70,7 +69,7 @@ export default defineComponent({
       rules: {
         inputValue: {
           required: true,
-          trigger: ["blur", "input"],
+          trigger: [ "input"],
           message: "请输入项目名称"
         },
         datetimeValue: {

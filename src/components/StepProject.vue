@@ -1,5 +1,11 @@
 <template>
-    <div v-if="!isLoading" style="min-height:110px">
+<div v-if="currentProject">
+    <n-alert title="提示" type="warning" >
+        您暂未添加任何您的项目
+    </n-alert>
+</div>
+    <div v-else>
+      <div v-if="!isLoading" style="min-height:110px">
 
         <el-steps :active="currentPorject.jindu" finish-status="success">
             <el-step title="可行性"></el-step>
@@ -19,6 +25,7 @@
 
      </div>
    </div>
+    </div>
     
     <el-dialog
     v-model="centerDialogVisible"
