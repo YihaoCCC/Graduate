@@ -1,33 +1,33 @@
 <template>
-    <div v-if="isAuth(['ROOT', 'ROLE:SELECT'])">
+    <div v-if="isAuth(['ROOT', 'DEPT:SELECT'])">
         <el-form :inline="true" :model="dataForm" :rules="dataRule" ref="dataForm">
-            <el-form-item prop="roleName">
+            <el-form-item prop="deptName">
                 <el-input
-                    v-model="dataForm.roleName"
-                    placeholder="角色名称"
+                    v-model="dataForm.deptName"
+                    placeholder="部门名称"
                     size="medium"
                     class="input"
                     clearable="clearable"
                 />
             </el-form-item>
-            <el-form-item>
+            <el-form-item >
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
                 <el-button
                     size="medium"
                     type="primary"
-                    :disabled="!isAuth(['ROOT', 'ROLE:INSERT'])"
+                    :disabled="!isAuth(['ROOT'])"
                     @click="addHandle()"
                 >
                     新增
                 </el-button>
-                <el-button
+                <!-- <el-button
                     size="medium"
                     type="danger"
-                    :disabled="!isAuth(['ROOT', 'ROLE:DELETE'])"
+                    :disabled="!isAuth(['ROOT'])"
                     @click="deleteHandle()"
                 >
                     批量删除
-                </el-button>
+                </el-button> -->
             </el-form-item>
         </el-form>
         <el-table
@@ -36,8 +36,8 @@
             v-loading="dataListLoading"
             @selection-change="selectionChangeHandle"
             cell-style="padding: 4px 0"
-            style="width: 100%;"
             size="medium"
+            style="width: 100%;"
         >
             <el-table-column
                 type="selection"
@@ -51,37 +51,29 @@
                     <span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="roleName" header-align="center" align="center" label="角色名称" min-width="180"/>
-            <el-table-column header-align="center" align="center" label="权限数量" min-width="140">
+            <el-table-column prop="deptName" header-align="center" align="center" label="部门名称" min-width="170" />
+            <el-table-column prop="tel" header-align="center" align="center" label="联系电话" min-width="170" />
+            <el-table-column prop="email" header-align="center" align="center" label="邮箱" min-width="270" />
+            <el-table-column header-align="center" align="center" label="员工数量" min-width="140">
                 <template #default="scope">
-                    <span>{{ scope.row.permissions }}个</span>
+                    <span>{{ scope.row.emps }}人</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="users" header-align="center" align="center" label="关联用户" min-width="140">
-                <template #default="scope">
-                    <span>{{ scope.row.users }}人</span>
-                </template>
-            </el-table-column>
-            <el-table-column prop="desc" header-align="center" align="center" label="备注" min-width="450" />
-            <el-table-column prop="systemic" header-align="center" align="center" label="内置角色" min-width="100">
-                <template #default="scope">
-                    <span>{{ scope.row.systemic ? '是' : '否' }}</span>
-                </template>
-            </el-table-column>
+            <el-table-column prop="desc" header-align="center" align="center" label="备注" min-width="400" />
             <el-table-column header-align="center" align="center" width="150" label="操作">
                 <template #default="scope">
                     <el-button
                         type="text"
                         size="medium"
-                        :disabled="!isAuth(['ROOT', 'ROLE:UPDATE']) || scope.row.id == 0"
-                        @click="updateHandle(scope.row.id, scope.row.systemic)"
+                        :disabled="!isAuth(['ROOT'])"
+                        @click="updateHandle(scope.row.id)"
                     >
                         修改
                     </el-button>
                     <el-button
                         type="text"
                         size="medium"
-                        :disabled="!isAuth(['ROOT', 'ROLE:DELETE']) || scope.row.systemic || scope.row.users > 0"
+                        :disabled="!isAuth(['ROOT', 'DEPT:DELETE']) || scope.row.emps > 0"
                         @click="deleteHandle(scope.row.id)"
                     >
                         删除
@@ -103,7 +95,7 @@
 </template>
 
 <script>
-import AddOrUpdate from './role-add-or-update.vue';
+import AddOrUpdate from '../department/dept-add-or-update.vue';
 export default {
     components: {
         AddOrUpdate
@@ -111,7 +103,7 @@ export default {
     data: function() {
         return {
             dataForm: {
-                roleName: null
+                deptName: null
             },
             dataList: [],
             pageIndex: 1,
@@ -121,7 +113,9 @@ export default {
             dataListSelections: [],
             addOrUpdateVisible: false,
             dataRule: {
-                roleName: [{ required: false, pattern: '^[a-zA-Z0-9\u4e00-\u9fa5]{1,10}$', message: '角色格式错误' }]
+                deptName: [
+                    { required: false, pattern: '^[a-zA-Z0-9\u4e00-\u9fa5]{1,10}$', message: '部门名称格式错误' }
+                ]
             }
         };
     },
@@ -130,11 +124,12 @@ export default {
             let that = this;
             that.dataListLoading = true;
             let data = {
-                roleName: that.dataForm.roleName,
+                deptName: that.dataForm.deptName,
                 page: that.pageIndex,
                 length: that.pageSize
             };
-            that.$http('role/searchRoleByPage', 'POST', data, true, function(resp) {
+
+            that.$http('dept/searchDeptByPage', 'POST', data, true, function(resp) {
                 let page = resp.page;
                 that.dataList = page.list;
                 that.totalCount = page.totalCount;
@@ -145,8 +140,8 @@ export default {
             this.$refs['dataForm'].validate(valid => {
                 if (valid) {
                     this.$refs['dataForm'].clearValidate();
-                    if (this.dataForm.roleName == '') {
-                        this.dataForm.roleName = null;
+                    if (this.dataForm.deptName == '') {
+                        this.dataForm.deptName = null;
                     }
                     if (this.pageIndex != 1) {
                         this.pageIndex = 1;
@@ -157,21 +152,20 @@ export default {
                 }
             });
         },
-        selectionChangeHandle: function(val) {
-            this.dataListSelections = val;
-        },
         selectable: function(row, index) {
-            if (row.systemic || row.users > 0) {
+            if (row.emps > 0) {
                 return false;
             }
             return true;
+        },
+        selectionChangeHandle: function(val) {
+            this.dataListSelections = val;
         },
         sizeChangeHandle: function(val) {
             this.pageSize = val;
             this.pageIndex = 1;
             this.loadDataList();
         },
-        // 当前页
         currentChangeHandle: function(val) {
             this.pageIndex = val;
             this.loadDataList();
@@ -195,14 +189,16 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    that.$http('role/deleteRoleByIds', 'POST', { ids: ids }, true, function(resp) {
+                    that.$http('dept/deleteDeptByIds', 'POST', { ids: ids }, true, function(resp) {
                         if (resp.rows > 0) {
                             that.$message({
                                 message: '操作成功',
                                 type: 'success',
-                                duration: 1200
+                                duration: 1200,
+                                onClose: () => {
+                                    that.loadDataList();
+                                }
                             });
-                            that.loadDataList();
                         } else {
                             that.$message({
                                 message: '未能删除记录',
@@ -220,10 +216,10 @@ export default {
                 this.$refs.addOrUpdate.init();
             });
         },
-        updateHandle: function(id, systemic) {
+        updateHandle: function(id) {
             this.addOrUpdateVisible = true;
             this.$nextTick(() => {
-                this.$refs.addOrUpdate.init(id, systemic);
+                this.$refs.addOrUpdate.init(id);
             });
         }
     },

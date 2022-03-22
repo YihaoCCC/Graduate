@@ -2,13 +2,13 @@
 	<el-dialog title="报销申请" :close-on-click-modal="false" v-model="visible" width="550px">
 		<el-scrollbar height="470px">
 			<el-form :model="dataForm" ref="dataForm" :rules="dataRule" label-width="100px">
-				<el-form-item label="报销种类" prop="type">
+				<!-- <el-form-item label="报销种类" prop="type">
 					<el-radio-group v-model="dataForm.type" size="medium">
 						<el-radio-button label="普通报销"></el-radio-button>
 						<el-radio-button label="差旅报销"></el-radio-button>
 					</el-radio-group>
-				</el-form-item>
-				<el-form-item label="借款金额" prop="anleihen">
+				</el-form-item> -->
+				<el-form-item label="花费金额" prop="anleihen">
 					<el-input
 						v-model="dataForm.anleihen"
 						placeholder="借款金额"
@@ -17,10 +17,10 @@
 						clearable="clearable"
 						prop="anleihen"
 					/>
-					<span class="note">请如实填写借款金额</span>
+					<span class="note">花费的金额</span>
 				</el-form-item>
-				<div v-for="(one, $index) in dataForm.project" class="project">
-					<h3>【 报销项目 】</h3>
+				<div v-for="(one, $index) in dataForm.project" class="project" :key="$index">
+					<h3>【 报销详情 】</h3>
 					<i class="el-icon-delete icon-delete" @click="deleteProjectHandle($index)"></i>
 					<el-form-item
 						label="项目名称"
@@ -47,10 +47,8 @@
 						}"
 					>
 						<el-select v-model="one.type" class="input" size="medium" clearable>
-							<el-option label="办公用品" value="办公用品" />
-							<el-option label="招待费" value="招待费" />
+							<el-option label="办公用品" value="办公用品" />							
 							<el-option label="采购费" value="采购费" />
-							<el-option label="劳务费" value="劳务费" />
 							<el-option label="培训费" value="培训费" />
 							<el-option label="维修费" value="维修费" />
 							<el-option label="办公费" value="办公费" />
@@ -86,7 +84,7 @@
 							style="width:160px;"
 							clearable
 						/>
-						<span class="note">认真核对该项目的报销金额</span>
+						<span class="note">需要报销的金额</span>
 					</el-form-item>
 				</div>
 			</el-form>

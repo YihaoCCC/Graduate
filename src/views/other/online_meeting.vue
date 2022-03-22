@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import Add from './online_meeting-add.vue';
+import Add from '../other/online_meeting-add.vue';
 import dayjs from 'dayjs';
 
 export default {

@@ -9,7 +9,7 @@
                     size="medium"
                     clearable="clearable"
                 >
-                    <el-option v-for="one in roomList" :label="one.name" :value="one.name" />
+                    <el-option v-for="one in roomList" :label="one.name" :value="one.name" :key="one.name" />
                 </el-select>
             </el-form-item>
             <el-form-item prop="date">
@@ -22,8 +22,10 @@
                 ></el-date-picker>
             </el-form-item>
             <el-form-item>
+
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
-                <el-button size="medium" type="danger" @click="addHandle()">会议申请</el-button>
+                <n-button  style="margin-left:20px" type="warning" dashed   @click="addHandle()">会议申请</n-button>
+                
             </el-form-item>
             <el-form-item class="mold">
                 <el-radio-group v-model="dataForm.mold" size="medium" @change="changeHandle">
@@ -35,13 +37,13 @@
         <div class="gantt" ref="gantt" v-show="mode == 'gantt'">
             <div class="row">
                 <div class="cell-time"></div>
-                <div class="cell-time" v-for="one in time">
+                <div class="cell-time" v-for="one in time" :key="one">
                     <span class="time">{{ one }}</span>
                 </div>
             </div>
-            <div class="row" v-for="room in gantt.meetingRoom">
+            <div class="row" v-for="room in gantt.meetingRoom" :key="room.name">
                 <div class="cell room">{{ room.name }}</div>
-                <div class="cell" v-for="one in time">
+                <div class="cell" v-for="one in time" :key="one">
                     <div
                         v-if="room.meeting.hasOwnProperty(one)"
                         class="meeting"
@@ -65,9 +67,9 @@
         <div class="calendar" v-show="mode == 'calendar'">
             <div class="row">
                 <div class="cell">时间</div>
-                <div class="cell" v-for="one in calendar.days">{{ one.date }}（{{ one.day }}）</div>
+                <div class="cell" v-for="one in calendar.days" :key="one.day">{{ one.date }}（{{ one.day }}）</div>
             </div>
-            <div class="row" v-for="(one, index) in time">
+            <div class="row" v-for="(one, index) in time" :key="index">
                 <div class="cell-time" v-if="time[index + 1] != null">{{ one }} ~ {{ time[index + 1] }}</div>
                 <div class="cell" v-for="day in calendar.days" v-if="time[index + 1] != null">
                     <div
@@ -105,10 +107,10 @@
 </template>
 
 <script>
-import SvgIcon from '../components/SvgIcon.vue';
+import SvgIcon from '../../components/SvgIcon.vue';
 import dayjs from 'dayjs';
-import Add from './offline_meeting-add.vue';
-import Info from './offline_meeting-info.vue';
+import Add from '../meeting/offline_meeting-add.vue';
+import Info from '../meeting/offline_meeting-info.vue';
 export default {
     components: { SvgIcon, Add, Info },
     data: function() {

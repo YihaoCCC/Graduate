@@ -5,19 +5,19 @@ import {
 from 'vue-router'
 import Main from "../views/main.vue"
 import Home from "../views/home/home.vue"
-import Role from "../views/role.vue"
+import Role from "../views/role/role.vue"
 import User from "../views/userManage/user.vue"
-import Dept from "../views/dept.vue"
-import MeetingRoom from '../views/meeting_room.vue'
-import OfflineMeeting from "../views/offline_meeting.vue"
-import OnlineMeeting from "../views/online_meeting.vue"
-import MeetingVideo from "../views/meeting_video.vue"
+import Dept from "../views/department/dept.vue"
+import MeetingRoom from '../views/meeting/meeting_room.vue'
+import OfflineMeeting from "../views/meeting/offline_meeting.vue"
+import OnlineMeeting from "../views/other/online_meeting.vue"
+import MeetingVideo from "../views/other/meeting_video.vue"
 import Approval from "../views/approval.vue"
-import Leave from "../views/leave.vue"
-import Amect from "../views/amect.vue"
-import AmectType from "../views/amect_type.vue"
-import AmectReport from "../views/amect_report.vue"
-import Reim from "../views/reim.vue"
+import Leave from "../views/leave/leave.vue"
+import Amect from "../views/fine/amect.vue"
+import AmectType from "../views/fine/amect_type.vue"
+import AmectReport from "../views/fine/amect_report.vue"
+import Reim from "../views/reimburse/reim.vue"
 import Profile from '../views/profile/index.vue'
 const routes = [{
 		path: '/login',

@@ -16,7 +16,7 @@
 						<th width="20%">类别</th>
 						<th width="16%">金额</th>
 					</tr>
-					<tr align="center" v-for="one in content">
+					<tr align="center" v-for="one in content" :key="one.title">
 						<td align="left">{{ one.title }}</td>
 						<td align="left">{{ one.desc }}</td>
 						<td>{{ one.type }}</td>

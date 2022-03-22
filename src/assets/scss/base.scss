@@ -455,6 +455,20 @@ img {
   .el-card__header {
 	  padding: 12px 20px 6px 20px !important;
   }
-  .el-form {
-	  text-align: center;
+  .el-radio-group {
+	  label {
+		  margin-left: 20px;
+		  .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+			 background-color: #f8c12a;
+			 border-color: #a86a0d;
+			 -webkit-box-shadow: none;
+    		box-shadow: none;
+		 }
+	  }
+	  .el-radio-button .el-radio-button__inner {
+		border-radius: 8px !important;
+	  }
+	  .el-radip-button--medium {
+		border-radius: 20px !important;
+	  }
   }

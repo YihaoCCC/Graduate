@@ -103,16 +103,16 @@
 					<span>{{ scope.row.amount }}元</span>
 				</template>
 			</el-table-column>
-			<el-table-column header-align="center" align="center" label="借款金额" min-width="120">
+			<el-table-column header-align="center" align="center" label="花费金额" min-width="120">
 				<template #default="scope">
 					<span>{{ scope.row.anleihen }}元</span>
 				</template>
 			</el-table-column>
-			<el-table-column header-align="center" align="center" label="实际报销" min-width="120">
+			<!-- <el-table-column header-align="center" align="center" label="实际报销" min-width="120">
 				<template #default="scope">
 					<span>{{ scope.row.balance }}元</span>
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column prop="status" header-align="center" align="center" label="状态" min-width="100" >
 				<template #default='scope'>
 					<el-tag :type="scope.row.status === '待审批' ? 'warning':'success'" effect="dark">

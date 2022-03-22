@@ -1,9 +1,9 @@
 <template>
-    <el-dialog title="会议概要信息" :close-on-click-modal="false" v-model="visible" width="450px">
+    <el-dialog title="我的会议信息" :close-on-click-modal="false" v-model="visible" width="450px">
         <div>
             <div class="banner"></div>
             <el-row class="info">
-                <el-col :span="3" class="label">主题：</el-col>
+                <el-col :span="3" class="label">会议：</el-col>
                 <el-col :span="21">
                     <span class="value">{{ title }}</span>
                 </el-col>
@@ -55,7 +55,7 @@
             </el-row>
         </div>
         <template #footer>
-            <span class="dialog-footer"><el-button size="medium" @click="visible = false">关闭</el-button></span>
+            <span class="dialog-footer"><el-button size="medium" type="error" @click="visible = false">关闭</el-button></span>
         </template>
     </el-dialog>
 </template>

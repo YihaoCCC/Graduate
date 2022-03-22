@@ -1,28 +1,21 @@
 <template>
-    <div>
+    <div v-if="isAuth(['ROOT', 'ROLE:SELECT'])">
         <el-form :inline="true" :model="dataForm" :rules="dataRule" ref="dataForm">
-            <el-form-item prop="name">
+            <el-form-item prop="roleName">
                 <el-input
-                    v-model="dataForm.name"
-                    placeholder="会议室名称"
+                    v-model="dataForm.roleName"
+                    placeholder="角色名称"
                     size="medium"
                     class="input"
                     clearable="clearable"
                 />
             </el-form-item>
-            <!-- <el-form-item>
-                <el-select v-model="dataForm.canDelete" class="input" placeholder="条件" size="medium">
-                    <el-option label="全部" value="all" />
-                    <el-option label="可删除" value="true" />
-                    <el-option label="不可删除" value="false" />
-                </el-select>
-            </el-form-item> -->
             <el-form-item>
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
                 <el-button
                     size="medium"
                     type="primary"
-                    :disabled="!isAuth(['ROOT', 'MEETING_ROOM:INSERT'])"
+                    :disabled="!isAuth(['ROOT', 'ROLE:INSERT'])"
                     @click="addHandle()"
                 >
                     新增
@@ -30,7 +23,7 @@
                 <el-button
                     size="medium"
                     type="danger"
-                    :disabled="!isAuth(['ROOT', 'MEETING_ROOM:DELETE'])"
+                    :disabled="!isAuth(['ROOT', 'ROLE:DELETE'])"
                     @click="deleteHandle()"
                 >
                     批量删除
@@ -46,39 +39,49 @@
             style="width: 100%;"
             size="medium"
         >
-            <el-table-column type="selection" header-align="center" align="center" width="50" />
+            <el-table-column
+                type="selection"
+                :selectable="selectable"
+                header-align="center"
+                align="center"
+                width="50"
+            />
             <el-table-column type="index" header-align="center" align="center" width="100" label="序号">
                 <template #default="scope">
                     <span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="name" header-align="center" align="center" min-width="150" label="会议室名称" />
-            <!-- <el-table-column header-align="center" align="center" min-width="120" label="人数">
+            <el-table-column prop="roleName" header-align="center" align="center" label="角色名称" min-width="180"/>
+            <el-table-column header-align="center" align="center" label="权限数量" min-width="140">
                 <template #default="scope">
-                    <span>{{ scope.row.max }}人</span>
-                </template>
-            </el-table-column> -->
-            <el-table-column header-align="center" align="center" min-width="100" label="状态">
-                <template #default="scope">
-                    <el-tag :type="scope.row.status === 1 ? 'success':'danger'">{{ scope.row.status == 1 ? '可使用' : '已停用'}}</el-tag>
-                    <!-- <span>{{ scope.row.status == 1 ? '可使用' : '已停用' }}</span> -->
+                    <span>{{ scope.row.permissions }}个</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="desc" header-align="center" align="center" label="备注" min-width="400" />
+            <el-table-column prop="users" header-align="center" align="center" label="关联用户" min-width="140">
+                <template #default="scope">
+                    <span>{{ scope.row.users }}人</span>
+                </template>
+            </el-table-column>
+            <el-table-column prop="desc" header-align="center" align="center" label="备注" min-width="450" />
+            <el-table-column prop="systemic" header-align="center" align="center" label="内置角色" min-width="100">
+                <template #default="scope">
+                    <span>{{ scope.row.systemic ? '是' : '否' }}</span>
+                </template>
+            </el-table-column>
             <el-table-column header-align="center" align="center" width="150" label="操作">
                 <template #default="scope">
                     <el-button
                         type="text"
                         size="medium"
-                        :disabled="!isAuth(['ROOT', 'MEETING_ROOM:UPDATE']) || scope.row.id == 0"
-                        @click="updateHandle(scope.row.id)"
+                        :disabled="!isAuth(['ROOT', 'ROLE:UPDATE']) || scope.row.id == 0"
+                        @click="updateHandle(scope.row.id, scope.row.systemic)"
                     >
                         修改
                     </el-button>
                     <el-button
                         type="text"
                         size="medium"
-                        :disabled="!isAuth(['ROOT', 'MEETING_ROOM:DELETE']) || scope.row.id == 0"
+                        :disabled="!isAuth(['ROOT', 'ROLE:DELETE']) || scope.row.systemic || scope.row.users > 0"
                         @click="deleteHandle(scope.row.id)"
                     >
                         删除
@@ -100,7 +103,7 @@
 </template>
 
 <script>
-import AddOrUpdate from './meeting_room-add-or-update.vue';
+import AddOrUpdate from '../role/role-add-or-update.vue';
 export default {
     components: {
         AddOrUpdate
@@ -108,8 +111,7 @@ export default {
     data: function() {
         return {
             dataForm: {
-                name: null,
-                canDelete: null
+                roleName: null
             },
             dataList: [],
             pageIndex: 1,
@@ -119,7 +121,7 @@ export default {
             dataListSelections: [],
             addOrUpdateVisible: false,
             dataRule: {
-                name: [{ required: false, pattern: '^[a-zA-Z0-9\u4e00-\u9fa5]{1,20}$', message: '会议室名称格式错误' }]
+                roleName: [{ required: false, pattern: '^[a-zA-Z0-9\u4e00-\u9fa5]{1,10}$', message: '角色格式错误' }]
             }
         };
     },
@@ -128,13 +130,11 @@ export default {
             let that = this;
             that.dataListLoading = true;
             let data = {
-                name: that.dataForm.name,
-                canDelete: that.dataForm.canDelete == 'all' ? null : that.dataForm.canDelete,
+                roleName: that.dataForm.roleName,
                 page: that.pageIndex,
                 length: that.pageSize
             };
-
-            that.$http('meeting_room/searchMeetingRoomByPage', 'POST', data, true, function(resp) {
+            that.$http('role/searchRoleByPage', 'POST', data, true, function(resp) {
                 let page = resp.page;
                 that.dataList = page.list;
                 that.totalCount = page.totalCount;
@@ -145,8 +145,8 @@ export default {
             this.$refs['dataForm'].validate(valid => {
                 if (valid) {
                     this.$refs['dataForm'].clearValidate();
-                    if (this.dataForm.name == '') {
-                        this.dataForm.name = null;
+                    if (this.dataForm.roleName == '') {
+                        this.dataForm.roleName = null;
                     }
                     if (this.pageIndex != 1) {
                         this.pageIndex = 1;
@@ -160,11 +160,18 @@ export default {
         selectionChangeHandle: function(val) {
             this.dataListSelections = val;
         },
+        selectable: function(row, index) {
+            if (row.systemic || row.users > 0) {
+                return false;
+            }
+            return true;
+        },
         sizeChangeHandle: function(val) {
             this.pageSize = val;
             this.pageIndex = 1;
             this.loadDataList();
         },
+        // 当前页
         currentChangeHandle: function(val) {
             this.pageIndex = val;
             this.loadDataList();
@@ -188,7 +195,7 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    that.$http('meeting_room/deleteMeetingRoomByIds', 'POST', { ids: ids }, true, function(resp) {
+                    that.$http('role/deleteRoleByIds', 'POST', { ids: ids }, true, function(resp) {
                         if (resp.rows > 0) {
                             that.$message({
                                 message: '操作成功',
@@ -213,10 +220,10 @@ export default {
                 this.$refs.addOrUpdate.init();
             });
         },
-        updateHandle: function(id) {
+        updateHandle: function(id, systemic) {
             this.addOrUpdateVisible = true;
             this.$nextTick(() => {
-                this.$refs.addOrUpdate.init(id);
+                this.$refs.addOrUpdate.init(id, systemic);
             });
         }
     },
@@ -226,4 +233,4 @@ export default {
 };
 </script>
 
-<style lang="less"></style>
+<style></style>
