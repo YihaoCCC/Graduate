@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import  { ElNotification } from 'element-plus'
 export default {
 	data() {
 		const validateConfirmPassword = (rule, value, callback) => {
@@ -59,15 +60,23 @@ export default {
 			let that=this
 			that.$refs["dataForm"].validate(function(valid){
 				if(valid){
+					that.$yhRequest.put('/api/user/update', {
+						id: localStorage.getItem('USERID'),
+						password: that.dataForm.confirmPassword
+					})
 					let data={password:that.dataForm.confirmPassword}
 					that.$http("user/updatePassword","POST",data,true,function(resp){
 						if(resp.rows==1){
-							that.$message({
-								message: '密码修改成功',
-								type: 'success',
-								duration: 1200,
-							});
 							that.visible = false;
+							that.$http('user/logout', 'GET', null, true, function(resp) {
+								localStorage.clear()
+								that.$router.push({ name: 'Login' });
+							});
+							ElNotification({
+								title: '密码修改成功！',
+								message: '请您重新登录系统！',
+								type: 'success',
+							})
 						}
 						else{
 							that.$message({

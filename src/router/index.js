@@ -167,7 +167,7 @@ const routes = [{
 				name: 'Message',
 				component: () => import('../views/message/message.vue'),
 				meta: {
-					title: '我的消息',
+					title: '消息中心',
 					isTab: true
 				}
 			}

@@ -126,7 +126,7 @@
                     <template #header>
                         <div class="clearfix">
                             <span>我的待办事项</span>
-                            <el-button style="float: right; padding: 3px 0" type="text" @click="addItem">添加</el-button>
+                            <el-button style="float: right;" size="small"  type="warning" round plain @click="addItem">添加待办</el-button>
                         </div>
                     </template>
 
