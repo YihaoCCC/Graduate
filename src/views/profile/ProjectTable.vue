@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import {ref,onMounted} from 'vue'
+import {ref,onMounted, inject} from 'vue'
 import AddForm from './AddForm.vue'
 import yhRequest from '../../utils/yhRequest'
 export default {
@@ -126,6 +126,7 @@ export default {
         AddForm
     },
     setup() {
+
         const tableDate = ref(null)
         const getProject = () => {
             yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
@@ -136,6 +137,8 @@ export default {
         onMounted(() => {
             getProject()
         })
+        const refreash = inject('reload')
+
         const tableRowClassName = ({row, rowIndex,}) => {
                 if (rowIndex === 1) {
                     return 'warning-row'
@@ -150,19 +153,20 @@ export default {
         const activate = () => {
             active.value = true
         }
+        const close = (payload) => {
+                if(payload === 200 ) {
+                    // getProject()
+                    // active.value = false
+                    // console.log(payload)
+                    refreash()
+                }
+        } 
         return {
             tableRowClassName,
             tableDate,
             active,
             activate,
-            close(payload) {
-                if(payload === 200 ) {
-                    getProject()
-                    active.value = false
-                    console.log(payload)
-                }
-                
-            }
+            close
         } 
     },
     data() {

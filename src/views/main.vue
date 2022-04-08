@@ -52,7 +52,7 @@
                     
                     <el-menu-item index="1" class="site-navbar__switch">
                         <template #title>
-                            <el-badge :value="66"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
+                            <el-badge :value="66" @click="$router.push('/message')"><SvgIcon name="duanxin" class="icon-svg duanxin-svg" /></el-badge>
                         </template>
                     </el-menu-item>
                     <el-menu-item class="site-navbar__avatar" index="3">

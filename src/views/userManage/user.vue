@@ -46,23 +46,29 @@
             </el-form-item> -->
             <el-form-item>
                 <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
-                <el-button
-                    size="medium"
-                    type="primary"
-                    :disabled="!isAuth(['ROOT', 'USER:INSERT'])"
-                    @click="addHandle()"
-                >
-                    新增
-                </el-button>
-                <el-button
+                
+                <!-- <el-button
                     size="medium"
                     type="danger"
                     :disabled="!isAuth(['ROOT', 'USER:DELETE'])"
                     @click="deleteHandle()"
                 >
                     批量删除
-                </el-button>
+                </el-button> -->
             </el-form-item>
+            <el-form-item >
+				<button class="MyButton" @click="addHandle()" :disabled="!isAuth(['ROOT', 'USER:INSERT'])">
+					<div class="svg-wrapper-1">
+						<div class="svg-wrapper">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+							<path fill="none" d="M0 0h24v24H0z"></path>
+							<path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+						</svg>
+						</div>
+					</div>
+					<span>{{ !isAuth(['ROOT', 'USER:INSERT']) ? "您没权限新增用户" : '新增用户'}}</span>
+				</button>
+			</el-form-item>
         </el-form>
         <el-table
             :data="dataList"
@@ -73,7 +79,7 @@
             style="width: 100%;"
             size="medium"
         >
-            <el-table-column type="selection" header-align="center" align="center" width="50" />
+            <!-- <el-table-column type="selection" header-align="center" align="center" width="50" /> -->
             <el-table-column type="index" header-align="center" align="center" width="60" label="序号">
                 <template #default="scope">
                     <span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>

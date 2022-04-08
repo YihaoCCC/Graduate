@@ -1,6 +1,6 @@
 <template>
 	<el-dialog
-		:title="!dataForm.id ? '新增' : '修改'"
+		:title="!dataForm.id ? '新增用户信息' : '修改用户信息'"
 		v-if="isAuth(['ROOT', 'USER:INSERT', 'USER:UPDATE'])"
 		:close-on-click-modal="false"
 		v-model="visible"

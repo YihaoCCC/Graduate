@@ -67,7 +67,7 @@
                         {{showSign.toFixed(0)}}
                     </div>
                     <div class="rate">
-                        {{'36%'}}
+                        {{showSignPercent.toFixed(2) + '%'}}
                     </div>
                 </div>
                  <div class="ShortCut  myCard">
@@ -238,6 +238,7 @@ export default {
             mouthDay: 0,
             showSign : 0,
             showOnboarding: 0,
+            showSignPercent: 0,
             projectList: [],
             currentProject: {},
             TimeLine:[],
@@ -261,7 +262,7 @@ export default {
             console.log(this.user)
             this.sign = res.obj.signInDay
             this.mouthDay = res.obj.mouthDay
-            return [this.sign,res.obj.workDay]
+            return [this.sign,res.obj.workDay,res.obj.monthDay]
         })
         p.then(res => {
             gsap.to(this, {
@@ -271,6 +272,10 @@ export default {
             gsap.to(this, {
                 duration: 3,
                 showOnboarding: res[1]
+            })
+            gsap.to(this, {
+                duration: 3,
+                showSignPercent: (res[0]/res[2])*100
             })
         })
         },

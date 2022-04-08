@@ -34,7 +34,7 @@
                 ></el-date-picker>
             </el-form-item>
             <el-form-item>
-                <el-button size="medium" type="primary" @click="searchHandle()">生成报表</el-button>
+                <el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
             </el-form-item>
         </el-form>
         <div id="chart-container">
@@ -117,6 +117,19 @@ export default {
                     tooltip: {
                         trigger: 'item'
                     },
+                    color: [
+                        '#c23531',
+                        '#2f4554',
+                        '#61a0a8',
+                        '#d48265',
+                        '#91c7ae',
+                        '#749f83',
+                        '#ca8622',
+                        '#bda29a',
+                        '#6e7074',
+                        '#546570',
+                        '#c4ccd3'
+                    ],
                     series: [
                         {
                             name: '罚款类型',
@@ -166,6 +179,19 @@ export default {
                             fontWeight: 400
                         }
                     },
+                    color: [
+                        '#dd6b66',
+                        '#759aa0',
+                        '#e69d87',
+                        '#8dc1a9',
+                        '#ea7e53',
+                        '#eedd78',
+                        '#73a373',
+                        '#73b9bc',
+                        '#7289ab',
+                        '#91ca8c',
+                        '#f49f42'
+                    ],
                     tooltip: {
                         trigger: 'item'
                     },
@@ -220,6 +246,20 @@ export default {
                     tooltip: {
                         trigger: 'item'
                     },
+                    color: [
+                        '#FFDB5C',
+                        '#32C5E9',
+                        '#67E0E3',
+                        '#9FE6B8',
+                        '#ff9f7f',
+                        '#fb7293',
+                        '#E062AE',
+                        '#E690D1',
+                        '#e7bcf3',
+                        '#9d96f5',
+                        '#8378EA',
+                        '#96BFFF'
+                    ],
                     series: [
                         {
                             name: '罚款类型',
@@ -264,6 +304,21 @@ export default {
                     title: {
                         text: '全年违纪统计图'
                     },
+                    color: [
+                        '#37A2DA',
+                        '#32C5E9',
+                        '#67E0E3',
+                        '#9FE6B8',
+                        '#FFDB5C',
+                        '#ff9f7f',
+                        '#fb7293',
+                        '#E062AE',
+                        '#E690D1',
+                        '#e7bcf3',
+                        '#9d96f5',
+                        '#8378EA',
+                        '#96BFFF'
+                    ],
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {

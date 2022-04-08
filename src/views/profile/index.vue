@@ -22,16 +22,10 @@
                 
             </el-col>
             <el-col :span="16">
-                <n-card hoverable  title="项目进度详情">
-                    <template #header-extra>
-                        <a class="text-primary" href="javascript:;">更多项目</a>
-                    </template>
-                    {{One?.name || null}}
-                    <el-progress :percentage="One?.jindu || 66" color="#42b983"></el-progress>
-                    {{Two?.name || null}}
-                    <el-progress :percentage="Two?.jindu || 66" color="#f1e05a"></el-progress>项目三
-                    <el-progress :percentage="13.7"></el-progress>项目四
-                    <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+                <n-card hoverable  >
+                    
+                    <div id="projectMain" style="width:1000px;height:200px"></div>
+                   
                 </n-card>
             </el-col>
         </el-row>
@@ -51,34 +45,89 @@ import { useRouter } from 'vue-router'
 import { ref } from '@vue/reactivity'
 import yhRequest from '../../utils/yhRequest'
 import { onMounted } from '@vue/runtime-core'
-import { theme } from 'highcharts'
+import * as echarts from 'echarts/core';
+import {
+  DatasetComponent,
+  GridComponent,
+  VisualMapComponent
+} from 'echarts/components';
+import { BarChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([
+  DatasetComponent,
+  GridComponent,
+  VisualMapComponent,
+  BarChart,
+  CanvasRenderer
+]);
 export default {
   components: { ProjectTable },
     setup() {
         const project = ref(null)
-        const One = ref(null)
-        const Two = ref(null)
-        const Three = ref(null)
-        const Four = ref(null)
         const getProject = () => {
-            yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
+            return yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
                 project.value = res
-                console.log('idnex')
                 console.log(project.value)
-                if(res[0]) {
-                    One.value = res[0]
-                } else if(res[1]) {
-                    Two.value = res[1]
-                } else if(res[2]){
-                    Three.value = res[2]
-                } else if(res[3]) {
-                    Four.value = res[3]
-                }
-                
+              
+                let data = res.map(item => {
+                    return {
+                        name: item.name,
+                        type: 'bar',
+                        data: [item.jindu]
+                    }
+                })
+                return [data]  
             })
         }
         onMounted(() => {
-            getProject()
+            getProject().then((res) => {
+                var chartDom = document.getElementById('projectMain');
+                var myChart = echarts.init(chartDom);
+                var option;
+                option = {
+                    title: {
+                        text: '进度一览'
+                    },
+                    color: [
+                        '#dd6b66',
+                        '#759aa0',
+                        '#e69d87',
+                        '#8dc1a9',
+                        '#ea7e53',
+                        '#eedd78',
+                        '#73a373',
+                        '#73b9bc',
+                        '#7289ab',
+                        '#91ca8c',
+                        '#f49f42'
+                    ],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                        type: 'shadow'
+                        }
+                    },
+                    legend: {},
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'value',
+                        boundaryGap: [0, 0.01]
+                    },
+                    yAxis: {
+                        type: 'category',
+                        data: ['项目']
+                    },
+                    series: res[0] 
+                    };
+                    option && myChart.setOption(option);
+            })
+            
         })
         const router = useRouter()
         const goMessage = () => {
@@ -91,10 +140,7 @@ export default {
             username,
             project,
             dept,
-            One,
-            Two,
-            Three,
-            Four
+            
         }
     }
 }

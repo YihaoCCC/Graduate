@@ -1,8 +1,8 @@
 <template>
 	<el-dialog width="800px" :close-on-click-modal="false" v-model="visible" :show-close="false" center>
 		<div id="pdfDom">
-			<img :src="qrCodeBase64" class="qrCode" />
-			<h2 class="title">费&nbsp;&nbsp;&nbsp;用&nbsp;&nbsp;&nbsp;报&nbsp;&nbsp;&nbsp;销&nbsp;&nbsp;&nbsp;单</h2>
+			<!-- <img :src="qrCodeBase64" class="qrCode" /> -->
+			<h2 class="title">&nbsp;&nbsp;&nbsp;报&nbsp;&nbsp;&nbsp;销&nbsp;&nbsp;&nbsp;单</h2>
 			<div class="top-info-container">
 				<span class="info">报销部门：{{ dept }}</span>
 				<span class="info">报销人：{{ name }}</span>
@@ -26,11 +26,11 @@
 						<th align="center">报销合计</th>
 						<td colspan="3">{{ amount }}元</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th align="center">人民币大写</th>
 						<td colspan="3">{{ smalltoBIG(amount) }}</td>
-					</tr>
-					<tr>
+					</tr> -->
+					<!-- <tr>
 						<td colspan="5">
 							<div class="info-container">
 								<span class="info">借款金额：{{ anleihen }}元</span>
@@ -38,21 +38,21 @@
 								<span class="info">应补金额：{{ money_2 }}元</span>
 							</div>
 						</td>
-					</tr>
+					</tr> -->
 				</table>
 			</div>
 			<div class="bottom-info-container"></div>
-			<div class="bottom-info-container">
+			<!-- <div class="bottom-info-container">
 				<span class="sig">会计主管：</span>
 				<span class="sig">复核：</span>
 				<span class="sig">出纳：</span>
 				<span class="sig">报销人：</span>
-			</div>
+			</div> -->
 		</div>
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button type="primary" @click="getPdf('#pdfDom')" size="medium">下载报销单</el-button>
-				<el-button size="medium" @click="cancel()">关闭窗口</el-button>
+				<el-button size="medium" @click="cancel()">关闭</el-button>
 			</span>
 		</template>
 	</el-dialog>

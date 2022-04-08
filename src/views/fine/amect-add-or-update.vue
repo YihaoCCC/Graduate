@@ -8,9 +8,9 @@
 		<el-form :model="dataForm" ref="dataForm" :rules="dataRule" label-width="60px">
 			<el-form-item label="类型" prop="typeId">
 				<el-select v-model="dataForm.typeId" placeholder="罚款类型" size="medium" style="width:40%">
-					<el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" />
+					<el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" :key="one.type" />
 				</el-select>
-				<span class="desc">必须选择一个罚款类型，罚款金额可以自动生成</span>
+				<!-- <span class="desc">必须选择一个罚款类型，罚款金额可以自动生成</span> -->
 			</el-form-item>
 			<el-form-item label="金额" prop="amount">
 				<el-input v-model="dataForm.amount" size="medium" style="width:40%" placeholder="罚款金额" clearable />

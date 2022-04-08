@@ -57,6 +57,7 @@ export default defineComponent({
         yhRequest.post('/api/project/add', model.value).then((res) => {
           if(res.code === 200) {
             emit('closemodal',res.code)
+            
           }
         })
     }

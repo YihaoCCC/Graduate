@@ -32,7 +32,7 @@
 					<el-option v-for="one in amectTypeList" :label="one.type" :value="one.id" :key="one.type" />
 				</el-select>
 			</el-form-item>
-			<el-form-item>
+			<!-- <el-form-item>
 				<el-date-picker
 					v-model="dataForm.date"
 					type="daterange"
@@ -41,7 +41,7 @@
 					end-placeholder="结束日期"
 					size="medium"
 				></el-date-picker>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item>
 				<el-select
 					v-model="dataForm.status"
@@ -56,22 +56,15 @@
 			</el-form-item>
 			<el-form-item>
 				<el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
-				<el-button
-					size="medium"
-					type="primary"
-					:disabled="!isAuth(['ROOT', 'AMECT:INSERT'])"
-					@click="addHandle()"
-				>
-					新增
-				</el-button>
-				<el-button
+				
+				<!-- <el-button
 					size="medium"
 					type="danger"
 					:disabled="!isAuth(['ROOT', 'AMECT:DELETE'])"
 					@click="deleteHandle()"
 				>
 					批量删除
-				</el-button>
+				</el-button> -->
 				<el-button
 					size="medium"
 					type="warning"
@@ -80,6 +73,19 @@
 				>
 					查看报告
 				</el-button>
+			</el-form-item>
+			<el-form-item >
+				<button class="MyButton" @click="addHandle()" :disabled="!isAuth(['ROOT', 'AMECT:INSERT'])">
+					<div class="svg-wrapper-1">
+						<div class="svg-wrapper">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+							<path fill="none" d="M0 0h24v24H0z"></path>
+							<path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+						</svg>
+						</div>
+					</div>
+					<span>{{ !isAuth(['ROOT', 'AMECT:INSERT']) ? "您没权限罚款" : '新增罚款'}}</span>
+				</button>
 			</el-form-item>
 		</el-form>
 		<el-table
@@ -91,13 +97,13 @@
 			style="width: 100%;"
 			size="medium"
 		>
-			<el-table-column
+			<!-- <el-table-column
 				type="selection"
 				:selectable="selectable"
 				header-align="center"
 				align="center"
 				width="50"
-			/>
+			/> -->
 			<el-table-column width="40px" prop="reason" header-align="center" align="center" type="expand">
 				<template #default="scope">
 					罚款原因：{{ scope.row.reason }}
