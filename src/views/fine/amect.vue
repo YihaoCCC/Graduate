@@ -75,7 +75,7 @@
 				</el-button>
 			</el-form-item>
 			<el-form-item >
-				<button class="MyButton" @click="addHandle()" :disabled="!isAuth(['ROOT', 'AMECT:INSERT'])">
+				<button class="MyButton" @click="addHandle" :disabled="!isAuth(['ROOT', 'AMECT:INSERT'])">
 					<div class="svg-wrapper-1">
 						<div class="svg-wrapper">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -273,7 +273,8 @@ export default {
                 }
             })
         },
-        addHandle:function(){
+        addHandle:function(e){
+			e.preventDefault()
             this.addOrUpdateVisible=true
             this.$nextTick(()=>{
                 this.$refs.addOrUpdate.init()

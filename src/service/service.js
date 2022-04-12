@@ -11,6 +11,7 @@ class YHRequest {
         })
         this.instance.interceptors.response.use((res) => {
             console.log('自定义axios成功拦截！')
+            // ffffffffffasdfasdf
             return res.data
         })
     }

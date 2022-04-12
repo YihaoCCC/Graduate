@@ -185,11 +185,11 @@
                             <SvgIcon name="trust_fill" class="icon-svg" />
                             <span >个人中心</span>
                         </template>
-                        <el-menu-item index="amect-type" @click="$router.push({ name: 'Profile' })">
+                        <el-menu-item index="Profile" @click="$router.push({ name: 'Profile' })">
                             <SvgIcon name="xingqufill" class="icon-svg" />
                             <span>个人中心</span>
                         </el-menu-item>
-                        <el-menu-item index="amect-type" @click="$router.push({ name: 'Message' })">
+                        <el-menu-item index="Message" @click="$router.push({ name: 'Message' })">
                             <SvgIcon name="duanxin" class="icon-svg" />
                             <span>消息中心</span>
                         </el-menu-item>
@@ -537,8 +537,9 @@ export default {
     left: 20%;
     transform: translate(-20%,-10%);
     h1 {
-        font-size: 86px;
-        background-image: linear-gradient(to bottom right, #da1ac0, #e47534, #32D296);
+        font-size: 72px;
+        letter-spacing: 10px;
+        background-image: linear-gradient(to bottom right, #fff, rgb(170, 162, 162), rgb(228, 225, 225));
         -webkit-background-clip:text;
         -webkit-text-fill-color:transparent;
     }
