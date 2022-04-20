@@ -138,6 +138,14 @@
                             <SvgIcon name="cry_fill" class="icon-svg" />
                             <span  >罚款中心</span>
                         </el-menu-item>
+                        <el-menu-item
+                            index="sign"
+                            v-if="isAuth(['ROOT'])"
+                            @click="$router.push({ name: 'sign' })"
+                        >
+                            <SvgIcon name="service_fill" class="icon-svg" />
+                            <span >考勤管理</span>
+                        </el-menu-item>
                         <el-menu-item index="reim" @click="$router.push({ name: 'Reim' })">
                             <SvgIcon name="money_fill" class="icon-svg" />
                             <span  >报销管理</span>

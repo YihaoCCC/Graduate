@@ -170,6 +170,15 @@ const routes = [{
 					title: '消息中心',
 					isTab: true
 				}
+			},
+			{
+				path: '/sign',
+				name: 'sign',
+				component: () => import('../views/sign/sgin.vue'),
+				meta: {
+					title: '考勤管理',
+					isTab: true
+				}
 			}
 		]
 	},

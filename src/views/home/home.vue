@@ -21,7 +21,7 @@
                         YEAR
                     </button>
                     <button class="sign" @click="signClick">
-                        今日签到
+                        {{signStatus === '未签到' ? '今日签到' : signStatus=== '迟到' ? '今天已迟到' : `${signStatus}` }}
                     </button>
                 </div>
             </div>
@@ -218,6 +218,7 @@ import TimeLine from '../../components/TimeLine.vue'
 import StepProject from '../../components/StepProject.vue';
 import { ElNotification } from 'element-plus'
 import yhRequest from '../../utils/yhRequest';
+import {getUserStatus} from './homeHttp.js'
 HighchartsMore(Highcharts)
 HighchartsDrilldown(Highcharts);
 Highcharts3D(Highcharts);
@@ -349,7 +350,14 @@ export default {
         }
     },
     mounted() {
-        
+        getUserStatus().then(res => {
+            if(res.code === 500) {
+                this.signStatus = res.message 
+            } else {
+                this.signStatus = res.obj
+            }
+            console.log(res);
+        })
         this.getInfo()
         this.getProject().then(res => {
             this.getDaiBan()
@@ -411,6 +419,7 @@ export default {
         const lastLoginTime = ref(null)
         const oldItem = ref(null)
         const newItem = ref('')
+        const signStatus = ref('')
         let CurrentInstance = getCurrentInstance()
         let $yhRequest = CurrentInstance.appContext.config.globalProperties.$yhRequest
         const today = ref('')
@@ -530,9 +539,17 @@ export default {
                     ElNotification({
                         title: res.message,
                         type: 'warning',
-                })
+                    })
                 }
+                getUserStatus().then(res => {
+                   if(res.code === 500) {
+                        signStatus.value = res.message 
+                    } else {
+                        signStatus.value = res.obj
+                    }
+                })
             })
+            
         }
             $yhRequest.get('https://api.muxiaoguo.cn/api/yinlongli?api_key=cef2258d2716a7a3').then((res) => {
                 console.log(res.data)
@@ -566,7 +583,8 @@ export default {
                 ChangeProjectValue, // 更改项目后选择框的值
                 options, // 更改项目的选项
                 onPositiveClick,
-                ProjectLoading
+                ProjectLoading,
+                signStatus // 签到状态
             }
     }
 }
