@@ -11,9 +11,9 @@
 					<el-option label="报销申请" value="报销申请"></el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item prop="instanceId">
+			<!-- <el-form-item prop="instanceId">
 				<el-input v-model="dataForm.instanceId" size="medium" placeholder="实例编号" clearable="clearable" />
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item>
 				<el-button type="primary" size="medium" @click="searchHandle()">查询</el-button>
 			</el-form-item>
@@ -156,7 +156,15 @@
 			</el-table-column>
 			<el-table-column type="index" header-align="center" align="center" label="序号" width="100" />
 			<el-table-column prop="title" header-align="center" align="center" label="审批事项" min-width="400" />
-			<el-table-column prop="type" header-align="center" align="center" label="类别" min-width="180" />
+			<el-table-column  header-align="center" align="center" label="类别" min-width="180" >
+				<template #default='scope' >
+                    <el-tag class="mx-1" 
+                        :type=" scope.row.type === '员工请假' ? 'warning' : ''"
+                    		>
+						{{scope.row.type}}
+					</el-tag>
+                </template>
+			</el-table-column>
 			<el-table-column prop="creatorName" header-align="center" align="center" label="申请人" min-width="150" />
 			<el-table-column prop="createDate" header-align="center" align="center" label="发起日期" min-width="180" />
 			<el-table-column prop="status" header-align="center" align="center" label="状态" min-width="150">

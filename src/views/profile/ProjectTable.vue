@@ -120,25 +120,26 @@
 import {ref,onMounted, inject} from 'vue'
 import AddForm from './AddForm.vue'
 import yhRequest from '../../utils/yhRequest'
+import { ElMessage } from 'element-plus'
 export default {
     name: "basetable",
     components : {
         AddForm
     },
-    setup() {
+    setup(props,context) {
 
         const tableDate = ref(null)
         const getProject = () => {
             yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
                 tableDate.value = res
-                console.log(tableDate.value)
             })
         }
         onMounted(() => {
             getProject()
         })
+        // APP REFRSH
         const refreash = inject('reload')
-
+        
         const tableRowClassName = ({row, rowIndex,}) => {
                 if (rowIndex === 1) {
                     return 'warning-row'
@@ -155,9 +156,15 @@ export default {
         }
         const close = (payload) => {
                 if(payload === 200 ) {
+                    ElMessage({
+                        type: 'success',
+                        message: '添加项目成功！'
+                    })
                     // getProject()
                     // active.value = false
                     // console.log(payload)
+                    // refreash()
+                    // context.emit('refresh', true)
                     refreash()
                 }
         } 
@@ -186,9 +193,11 @@ export default {
             id: -1
         };
     },
-   
+    inject:['reload'],
+
     methods: {
         // 触发搜索按钮
+       
         handleSearch() {
             this.$set(this.query, "pageIndex", 1);
             this.getData();
@@ -196,6 +205,7 @@ export default {
         // 删除操作
         handleDelete(index,item) {
             // 二次确认删除
+            
             this.$confirm("确定要删除吗？", "提示", {
                 type: "warning"
             })
@@ -206,7 +216,9 @@ export default {
                         })
                     })
                     this.$message.success("删除成功");
+                    this.reload()
                     this.tableData.splice(index, 1);
+                    
                 })
                 .catch(() => {});
         },

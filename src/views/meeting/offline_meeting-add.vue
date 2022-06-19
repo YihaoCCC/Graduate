@@ -1,5 +1,5 @@
 <template>
-	<el-dialog title="会议申请" :close-on-click-modal="false" v-model="visible" width="692px">
+	<el-dialog title="会议室预约申请" :close-on-click-modal="false" v-model="visible" width="692px">
 		<el-form :model="dataForm" ref="dataForm" :rules="dataRule" label-width="60px">
 			<el-form-item label="主题" prop="title">
 				<el-input v-model="dataForm.title" size="medium" style="width:100%" clearable="clearable" />

@@ -138,7 +138,7 @@
                     >
                         修改
                     </el-button>
-                    <el-button
+                    <!-- <el-button
                         type="text"
                         size="medium"
                         v-if="isAuth(['ROOT', 'USER:UPDATE'])"
@@ -146,9 +146,9 @@
                         @click="dimissHandle(scope.row.id)"
                     >
                         离职
-                    </el-button>
+                    </el-button> -->
                     <el-button
-                        type="warning" plain
+                        type="danger" plain
                         size="small"
                         :disabled="scope.row.root"
                         v-if="isAuth(['ROOT', 'USER:DELETE'])"
@@ -314,6 +314,9 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    that.$yhRequest.delete(`/api/user/delete/${id}`).then((res) => {
+                        console.log(res);
+                    })
                     that.$http('user/deleteUserByIds', 'POST', { ids: ids }, true, function(resp) {
                         if (resp.rows > 0) {
                             that.$message({

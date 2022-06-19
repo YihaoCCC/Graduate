@@ -129,7 +129,7 @@
 			</el-table-column> -->
 			<el-table-column prop="status" header-align="center" align="center" label="状态" min-width="100" >
 				<template #default='scope'>
-					<el-tag :type="scope.row.status === '待审批' ? 'warning':'success'" effect="dark">
+					<el-tag :type="scope.row.status === '已通过' ? 'success':'danger'" effect="dark">
 					{{scope.row.status}}
 						</el-tag> 
 				</template>

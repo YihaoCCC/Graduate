@@ -28,7 +28,7 @@
                 
             </el-form-item>
             <el-form-item >
-				<button class="MyButton" @click="addHandle()" >
+				<button class="MyButton" @click="addHandle" >
 					<div class="svg-wrapper-1">
 						<div class="svg-wrapper">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -284,7 +284,8 @@ export default {
 			this.pageIndex=val
 			this.loadDataList()
 		},
-		addHandle:function(){
+		addHandle:function(e){
+            e.preventDefault()
 			this.addVisible=true
 			this.$nextTick(()=>{
 				this.$refs.add.init()

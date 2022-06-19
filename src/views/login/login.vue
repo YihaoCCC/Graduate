@@ -4,6 +4,14 @@
             <img src="../../assets/login/bg1.svg" alt="">
         </div>
         <div class="left">
+            <div class="floatSquare">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </div>
             <div class="login-form">
                     <div class="title-container">
                                 <h2>小奕在线办公服务系统</h2>
@@ -84,6 +92,7 @@ export default {
                 let data = { username: that.username, password: that.password };
                 //发送登陆请求
                 yhRequest.get(`/api/user/login/${that.username}&${that.password}`).then((res) => {
+                    console.log(res);
                     localStorage.setItem('USERID', res?.obj.id)
                     localStorage.setItem('USERNAME', res?.obj.name)
                     localStorage.setItem('DEPT', res.obj?.dept.deptName)

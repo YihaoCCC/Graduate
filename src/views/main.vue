@@ -1,11 +1,4 @@
 <template>
-    <div class="welcome"  id="indexframe" ref="showModel" :class="show ? 'animate__animated animate__fadeOut' : ''">
-        <div class="animate__animated animate__backInDown welcomeText animate__slow">
-            <h1>
-                欢迎来到小奕在线办公服务系统
-            </h1>
-        </div>
-    </div>
     <div
         class="site-wrapper"
         :class="{ 'site-sidebar--fold': sidebarFold }"
@@ -25,7 +18,7 @@
                         <SvgIcon name="zhedie" class="icon-svg" />
                     </el-menu-item>
                 </el-menu>
-                <div style="width:79%;height:50px;line-height:18px;display:inline-block;text-align:center">
+                <div style="width:78%;height:50px;line-height:18px;display:inline-block;text-align:center">
                     <h5 style="margin: 12px  0 0 0 ">
                         {{yiyan}}
                     </h5>
@@ -195,7 +188,7 @@
                         </template>
                         <el-menu-item index="Profile" @click="$router.push({ name: 'Profile' })">
                             <SvgIcon name="xingqufill" class="icon-svg" />
-                            <span>个人中心</span>
+                            <span>项目中心</span>
                         </el-menu-item>
                         <el-menu-item index="Message" @click="$router.push({ name: 'Message' })">
                             <SvgIcon name="duanxin" class="icon-svg" />
@@ -281,8 +274,6 @@ export default {
 
     setup() {
         const updatePassword = ref(null)
-        const showModel = ref(null)
-        const show = ref(false)
         const yiyan = ref('')
         const fullscreen = ref(false)
         const contentText = ref('点击或者按 F11 进入全屏')
@@ -291,21 +282,9 @@ export default {
             getCurrentInstance().appContext.config.globalProperties.$yhRequest.get('https://api.muxiaoguo.cn/api/yiyan?api_key=16d76a0353713b97').then((res) => {
                 yiyan.value = res.data.content
             })
-            closeModel()
         })
-         // 关闭蒙版
-        const closeModel = () => {
-            setTimeout(() => {
-            show.value = true
-            // showModel.value.addAttribute('class', 'animate__animated animate__fadeOut')
-            }, 5000)
-        }
-        setTimeout(() => {
-            showModel.value.style.display = 'none'
-        },5500)
+        
         return {
-            showModel,
-            show,
             yiyan,
             updatePassword,
             fullscreen,
@@ -528,30 +507,7 @@ export default {
 
 <style lang="scss">
 @import '../assets/scss/index.scss';
-.welcome {
-  position: absolute;
-  display: block;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(163, 160, 160, 0.466);  
-  z-index: 1000;
-  transition:  all .5s ease;
-}
-.welcomeText { 
-    position: absolute;
-    top: 40%;
-    left: 20%;
-    transform: translate(-20%,-10%);
-    h1 {
-        font-size: 72px;
-        letter-spacing: 10px;
-        background-image: linear-gradient(to bottom right, #fff, rgb(170, 162, 162), rgb(228, 225, 225));
-        -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
-    }
-}
+
 .el-card {
     border-radius: 20px !important;
 }

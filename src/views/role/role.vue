@@ -79,8 +79,8 @@
                         修改
                     </el-button>
                     <el-button
-                        type="text"
-                        size="medium"
+                        type="danger"
+                        size="small"
                         :disabled="!isAuth(['ROOT', 'ROLE:DELETE']) || scope.row.systemic || scope.row.users > 0"
                         @click="deleteHandle(scope.row.id)"
                     >
@@ -195,6 +195,7 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    this.$yhRequest
                     that.$http('role/deleteRoleByIds', 'POST', { ids: ids }, true, function(resp) {
                         if (resp.rows > 0) {
                             that.$message({

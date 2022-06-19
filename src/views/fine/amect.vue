@@ -42,7 +42,7 @@
 					size="medium"
 				></el-date-picker>
 			</el-form-item> -->
-			<el-form-item>
+			<!-- <el-form-item>
 				<el-select
 					v-model="dataForm.status"
 					class="input"
@@ -53,7 +53,7 @@
 					<el-option label="未缴纳" value="1" />
 					<el-option label="已缴纳" value="2" />
 				</el-select>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item>
 				<el-button size="medium" type="primary" @click="searchHandle()">查询</el-button>
 				
@@ -114,20 +114,31 @@
 					<span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="type" header-align="center" align="center" label="罚款类型" />
-			<el-table-column prop="name" header-align="center" align="center" label="当事人" />
+			<el-table-column header-align="center" align="center" label="罚款类型" >
+				<template #default='scope' >
+                    <el-tag class="mx-1" 
+                        :type=" scope.row.type === '缺席会议' ? 'warning'  
+                        : scope.row.type === '迟到早退' ? 'danger'
+                        : scope.row.type === '未关电脑' ? 'info'
+                        : ''
+                        "
+                    
+                    >{{scope.row.type}}</el-tag>
+                </template>
+			</el-table-column>
+			<el-table-column prop="name" header-align="center" align="center" label="员工名称" />
 			<el-table-column prop="deptName" header-align="center" align="center" label="所属部门" />
 			<el-table-column header-align="center" align="center" label="罚款金额">
 				<template #default="scope">
 					<span>{{ scope.row.amount }}元</span>
 				</template>
 			</el-table-column>
-			<el-table-column prop="status" header-align="center" align="center" label="状态" >
+			<!-- <el-table-column prop="status" header-align="center" align="center" label="状态" >
 				<template #default='scope'>
 					<el-tag :type="scope.row.status=== '已缴纳'? 'success': 'danger'">{{scope.row.status}}</el-tag> 
 					
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column prop="createTime" header-align="center" align="center" label="日期时间" />
 			<el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
 				<template #default="scope">
@@ -147,14 +158,14 @@
 					>
 						删除
 					</el-button>
-					<el-button
+					<!-- <el-button
 						type="text"
 						size="medium"
 						:disabled="!(scope.row.mine == 'true' && scope.row.status == '未缴纳')"
 						@click="payHandle(scope.row.id)"
 					>
 						交款
-					</el-button>
+					</el-button> -->
 				</template>
 			</el-table-column>
 		</el-table>

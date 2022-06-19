@@ -167,10 +167,28 @@ export default {
 						deptId: that.dataForm.deptId,
 						status: that.dataForm.status
 					};
-					that.$yhRequest.post('/api/user/add', data).then((res) => {
-						console.log('api add user')
-						console.log(res)
-					})
+					if(that.dataForm.id) {
+						that.$yhRequest.put('/api/user/update', {
+							id: that.dataForm.id,
+							username: that.dataForm.username,
+							password: that.dataForm.password,
+							name: that.dataForm.name,
+							sex: that.dataForm.sex,
+							tel: that.dataForm.tel,
+							email: that.dataForm.email,
+							hiredate: dayjs(that.dataForm.hiredate).format('YYYY-MM-DD'),
+							deptId: that.dataForm.deptId,
+							status: that.dataForm.status
+						}).then((res) => {
+							console.log('api add update update update update update')
+							console.log(res)
+						})
+					} else {
+						that.$yhRequest.post('/api/user/add', data).then((res) => {
+							console.log('api add user')
+							console.log(res)
+						})
+					}					
 					that.$http(`user/${!that.dataForm.id?'insert':'update'}`,"POST",data,true,function(resp){
 						if(resp.rows==1){
 							that.$message({

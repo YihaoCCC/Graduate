@@ -84,6 +84,12 @@ export default {
             let that = this;
             this.$refs['dataForm'].validate(valid => {
                 if (valid) {
+                    if(!that.dataForm.id) {
+                        that.$yhRequest.post('/api/dept/add',that.dataForm).then(res => {
+                            console.log('add add add addd add add add Dept');
+                            console.log(res)
+                        })
+                    }
                     that.$http(`dept/${!that.dataForm.id ? 'insert' : 'update'}`, 'POST', that.dataForm, true, function(
                         resp
                     ) {

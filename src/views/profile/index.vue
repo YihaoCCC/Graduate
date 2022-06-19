@@ -24,8 +24,14 @@
             <el-col :span="16">
                 <n-card hoverable  >
                     
-                    <div id="projectMain" style="width:1000px;height:200px"></div>
-                   
+                    <div id="projectMain" style="width:1000px;height:200px" v-if="projectNum"></div>
+                    <div  class="myCard" v-else>
+                        <div class="content">
+                            <n-alert title="提示" type="warning" >
+                            您暂未添加任何您的项目
+                            </n-alert>
+                        </div>
+                    </div>
                 </n-card>
             </el-col>
         </el-row>
@@ -65,24 +71,27 @@ export default {
   components: { ProjectTable },
     setup() {
         const project = ref(null)
+        const projectNum = ref(true)
         const getProject = () => {
             return yhRequest.get(`/api/project/queryByUserId/${localStorage.getItem('USERID')}`).then(res => {
                 project.value = res
-                console.log(project.value)
-              
-                let data = res.map(item => {
-                    return {
-                        name: item.name,
-                        type: 'bar',
-                        data: [item.jindu]
-                    }
-                })
-                return [data]  
+                if(res?.length) {
+                    projectNum.value = true
+                    let data = res.map(item => {
+                        return {
+                            name: item.name,
+                            type: 'bar',
+                            data: [item.jindu]
+                        }
+                    })
+                    return [data]
+                } else {
+                    projectNum.value =  false
+                }       
             })
         }
-        onMounted(() => {
-            getProject().then((res) => {
-                var chartDom = document.getElementById('projectMain');
+        const initChat = (res) => {
+            var chartDom = document.getElementById('projectMain');
                 var myChart = echarts.init(chartDom);
                 var option;
                 option = {
@@ -126,6 +135,12 @@ export default {
                     series: res[0] 
                     };
                     option && myChart.setOption(option);
+        }
+        onMounted(() => {
+            getProject().then((res) => {
+                console.log(res);
+                initChat(res)
+                console.log('刷新了当前组件');
             })
             
         })
@@ -140,12 +155,19 @@ export default {
             username,
             project,
             dept,
-            
+            projectNum
         }
     }
 }
 </script>
 <style scoped lang='scss'>
 @import url('./profile.scss');
-
+.myCard {
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+    .content {
+        width: 100%;
+    }
+}
 </style>

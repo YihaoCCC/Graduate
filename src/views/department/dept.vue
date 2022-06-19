@@ -39,13 +39,13 @@
             size="medium"
             style="width: 100%;"
         >
-            <el-table-column
+            <!-- <el-table-column
                 type="selection"
                 :selectable="selectable"
                 header-align="center"
                 align="center"
                 width="50"
-            />
+            /> -->
             <el-table-column type="index" header-align="center" align="center" width="100" label="序号">
                 <template #default="scope">
                     <span>{{ (pageIndex - 1) * pageSize + scope.$index + 1 }}</span>
@@ -71,8 +71,8 @@
                         修改
                     </el-button>
                     <el-button
-                        type="text"
-                        size="medium"
+                        type="danger"
+                        size="small"
                         :disabled="!isAuth(['ROOT', 'DEPT:DELETE']) || scope.row.emps > 0"
                         @click="deleteHandle(scope.row.id)"
                     >
@@ -189,6 +189,10 @@ export default {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
+                    that.$yhRequest.delete(`/api/dept/delete/${id}`).then(res => {
+                        console.log('delete delete deletedelete delete delete Dept');
+                        console.log(res);
+                    })
                     that.$http('dept/deleteDeptByIds', 'POST', { ids: ids }, true, function(resp) {
                         if (resp.rows > 0) {
                             that.$message({
