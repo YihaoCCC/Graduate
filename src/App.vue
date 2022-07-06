@@ -2,13 +2,13 @@
 	<div class="welcome"  id="indexframe" ref="showModel" :class="show ? 'animate__animated animate__fadeOut' : ''">
         <!-- <div class="animate__animated animate__backInDown welcomeText animate__slow">
             <h1>
-                欢迎来到小奕在线办公服务系统 (mater内容更改、git-commit-plugin插件的使用)
+                欢迎来到小奕在线办公服务系统 (mater内容更改、git-commit-plugin使用)    
             </h1>
         </div> -->
 		<yh-welcome welcomeText='欢迎来到小奕在线办公服务系统'></yh-welcome>
     </div>
 	<n-scrollbar>
-		<router-view  v-if="isShow"/>
+		<router-view  v-if="isShow"/>  
 	</n-scrollbar>
 </template>
 
